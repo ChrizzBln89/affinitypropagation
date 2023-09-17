@@ -7,7 +7,6 @@ import streamlit as st
 from sklearn import covariance
 from sklearn import cluster
 
-st.title("Uber pickups in NYC")
 
 symbol_dict = {
     "TOT": "Total",
