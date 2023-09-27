@@ -11,7 +11,7 @@ add_selectbox = st.sidebar.selectbox(
 )
 
 peer_group_user = peer_group()
-peer_group_user.add_company()
+st.sidebar.dataframe(peer_group_user.peer_group)
 
 # Load Data
 df = pd.read_csv("Data/info_merged.csv", header=0, index_col=0)
@@ -32,6 +32,8 @@ industry_select = st.multiselect(
 )
 st.multiselect("Algorithm", ["1", "2", "3"])
 
+# peer_group_user.add_company()
+
 # Filter Data for TSNE
 X = df[feature_select]
 X = RobustScaler().fit_transform(X)
@@ -39,5 +41,20 @@ fig = create_3d_scatterplot(df=df, X=X)
 
 # df = df[(df["sector"].isin(sector_select)) | (df["industry"].isin(industry_select))]
 df = df[df["industry"].isin(industry_select)]
+
 st.plotly_chart(fig, use_container_width=True)
-st.dataframe(df, hide_index=True)
+
+df["Peer Group"] = False
+
+st.data_editor(
+    df,
+    column_config={
+        "Peer Group": st.column_config.CheckboxColumn(
+            "Your favorite?",
+            help="Select your **favorite** widgets",
+            default=False,
+        )
+    },
+    disabled=["widgets"],
+    hide_index=True,
+)
