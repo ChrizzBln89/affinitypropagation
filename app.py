@@ -1,14 +1,17 @@
 import pandas as pd
 import numpy as np
-import numpy as np
 import streamlit as st
-from graph import create_3d_scatterplot
 from sklearn.preprocessing import RobustScaler
+from class_peer_group import peer_group
+from graph import create_3d_scatterplot
 
 add_selectbox = st.sidebar.selectbox(
     "Page Navigation",
     ("Peer Group", "Beta Calculation"),
 )
+
+peer_group_user = peer_group()
+peer_group_user.add_company()
 
 # Load Data
 df = pd.read_csv("Data/info_merged.csv", header=0, index_col=0)
