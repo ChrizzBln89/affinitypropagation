@@ -10,9 +10,6 @@ add_selectbox = st.sidebar.selectbox(
     ("Peer Group", "Beta Calculation"),
 )
 
-peer_group_user = peer_group()
-st.sidebar.dataframe(peer_group_user.peer_group)
-
 # Load Data
 df = pd.read_csv("Data/info_merged.csv", header=0, index_col=0)
 df.reset_index(inplace=True)
@@ -46,7 +43,7 @@ st.plotly_chart(fig, use_container_width=True)
 
 df["Peer Group"] = False
 
-st.data_editor(
+df = st.data_editor(
     df,
     column_config={
         "Peer Group": st.column_config.CheckboxColumn(
@@ -57,4 +54,12 @@ st.data_editor(
     },
     disabled=["widgets"],
     hide_index=True,
+)
+
+peer_group_user = peer_group()
+peer_group_user.add_company(df.loc[df["Peer Group"] == True, "symbol"])
+st.sidebar.dataframe(
+    df.loc[df["Peer Group"] == True, "shortName"],
+    hide_index=True,
+    use_container_width=True,
 )
