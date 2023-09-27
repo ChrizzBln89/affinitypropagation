@@ -1,5 +1,6 @@
 import pandas as pd
 import plotly.express as px
+from sklearn.manifold import TSNE
 
 
 def create_3d_scatterplot(df: pd.DataFrame(), X: pd.DataFrame()):
