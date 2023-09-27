@@ -17,7 +17,6 @@ def create_3d_scatterplot(df: pd.DataFrame(), X: pd.DataFrame()):
         x=0,
         y=1,
         z=2,
-        size=embedding_3d.marketCap_bins,
         hover_name=embedding_3d.shortName,
         color=embedding_3d.marketCap_bins,
         opacity=0.6,
