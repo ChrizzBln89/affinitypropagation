@@ -2,7 +2,7 @@ import pandas as pd
 from modules.path import path_data
 
 
-class peer_group:
+class Peer_Group:
     def __init__(self):
         # Connection to database
         self.info_data = pd.read_csv(path_data + "info_merged.csv")
@@ -16,7 +16,7 @@ class peer_group:
         self.fill_method = "ffill"
         self.index = "test_index"
 
-    def add_company(ticker: str) -> list:
+    def add_company(self, ticker: str) -> list:
         """Adds companies to the peer group selection and is later used for data filtering form database."""
         self.peer_companies.append(ticker)
         return self.peer_companies

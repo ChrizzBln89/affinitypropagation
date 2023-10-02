@@ -1,12 +1,12 @@
 import pandas as pd
 import streamlit as st
-from modules.class_peer_group import peer_group
+from modules.class_peer_group import Peer_Group
 import plotly.express as px
 from datetime import datetime
 
 
 def beta_page():
-    peer_test = peer_group()
+    peer_test = Peer_Group()
     peer_test.add_company("AAPL")
     st.write(peer_test.peer_companies)
 

@@ -2,11 +2,11 @@ import pandas as pd
 import numpy as np
 import streamlit as st
 from sklearn.preprocessing import RobustScaler
-from modules.class_peer_group import peer_group
+from modules.class_peer_group import Peer_Group
 from modules.graph import create_3d_scatterplot
 
 
-def peergroup_page():
+def peergroup_page(peer_group_user):
     # Load Data
     df = pd.read_csv("data/info_merged.csv", header=0, index_col=0)
     df.reset_index(inplace=True)
@@ -55,7 +55,6 @@ def peergroup_page():
         hide_index=True,
     )
 
-    peer_group_user = peer_group()
     peer_group_user.add_company(list(df.loc[df["Peer Group"] == True, "symbol"]))
 
 
