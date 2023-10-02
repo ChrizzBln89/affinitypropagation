@@ -2,17 +2,16 @@ import pandas as pd
 import numpy as np
 import streamlit as st
 from sklearn.preprocessing import RobustScaler
-from modules.class_peer_group import Peer_Group
+from peer_group_user import peer_group_user
 from modules.graph import create_3d_scatterplot
 
 
-def peergroup_page(peer_group_user):
+def peergroup_page():
     # Load Data
-    df = pd.read_csv("data/info_merged.csv", header=0, index_col=0)
-    df.reset_index(inplace=True)
-    df = df[df["currency"].isin(["EUR"])]
-    sector_selection = list(df["sector"].unique())
-    industry_selection = list(df["industry"].unique())
+    df = peer_group_user.info_data
+    df = df[df["Currency"].isin(["EUR"])]
+    sector_selection = list(df["Sector"].unique())
+    industry_selection = list(df["Industry"].unique())
 
     # Marketcap Bins
     num = 10
@@ -36,18 +35,15 @@ def peergroup_page(peer_group_user):
     fig = create_3d_scatterplot(df=df, X=X)
 
     # df = df[(df["sector"].isin(sector_select)) | (df["industry"].isin(industry_select))]
-    df = df[df["industry"].isin(industry_select)]
+    df = df[df["Industry"].isin(industry_select)]
 
     st.plotly_chart(fig, use_container_width=True)
-
-    df["Peer Group"] = False
 
     df = st.data_editor(
         df,
         column_config={
             "Peer Group": st.column_config.CheckboxColumn(
-                "Your favorite?",
-                help="Select your **favorite** widgets",
+                "Include in Peer Group?",
                 default=False,
             )
         },
@@ -55,7 +51,8 @@ def peergroup_page(peer_group_user):
         hide_index=True,
     )
 
-    peer_group_user.add_company(list(df.loc[df["Peer Group"] == True, "symbol"]))
+    for company in list(df.loc[df["Peer Group"] == True, "Symbol"]):
+        peer_group_user.add_company(company)
 
 
 if __name__ == "__main__":
