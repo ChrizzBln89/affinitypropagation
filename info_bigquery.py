@@ -4,12 +4,10 @@ from pandas_gbq import to_gbq
 
 project_id = "flash-realm-401106"
 dataset_id = "valuationhub"
-table_id = "history"
+table_id = "info"
 credentials_file = "flash-realm-401106-a0bf29a37df7.json"
 
 df = pd.read_csv("data/info_merged_reduced.csv")
-
-df = df.iloc[0:10, 0:1]
 
 credentials = service_account.Credentials.from_service_account_file(
     credentials_file, scopes=["https://www.googleapis.com/auth/bigquery"]
@@ -22,8 +20,7 @@ to_gbq(
     destination_table,
     project_id=project_id,
     if_exists="replace",  # Choose whether to replace or append to the table
-    credentials=credentials,
-    table_schema=schema,  # Specify the schema for the table
+    credentials=credentials,  # Specify the schema for the table
 )
 
 print(f"DataFrame uploaded to {destination_table} in BigQuery.")
