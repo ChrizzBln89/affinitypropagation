@@ -7,7 +7,7 @@ dataset_id = "valuationhub"
 table_id = "info"
 credentials_file = "flash-realm-401106-a0bf29a37df7.json"
 
-df = pd.read_csv("data/info_merged_reduced.csv")
+df = pd.read_csv("data/history_merged.csv")
 
 credentials = service_account.Credentials.from_service_account_file(
     credentials_file, scopes=["https://www.googleapis.com/auth/bigquery"]
