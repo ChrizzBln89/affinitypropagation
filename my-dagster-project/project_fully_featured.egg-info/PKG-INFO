@@ -1,0 +1,39 @@
+Metadata-Version: 2.1
+Name: project-fully-featured
+Version: 1!0+dev
+Author: Dagster Labs
+Author-email: hello@dagsterlabs.com
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Operating System :: OS Independent
+Requires-Dist: aiobotocore
+Requires-Dist: dagster
+Requires-Dist: dagster-aws
+Requires-Dist: dagster-dbt
+Requires-Dist: dagster-pandas
+Requires-Dist: dagster-pyspark
+Requires-Dist: dagster-slack
+Requires-Dist: dagster-postgres
+Requires-Dist: dbt-duckdb
+Requires-Dist: dbt-snowflake
+Requires-Dist: duckdb!=0.3.3,<=6.0.0
+Requires-Dist: mock
+Requires-Dist: pandas
+Requires-Dist: pyarrow>=4.0.0
+Requires-Dist: pyspark
+Requires-Dist: requests
+Requires-Dist: gcsfs
+Requires-Dist: fsspec
+Requires-Dist: s3fs
+Requires-Dist: scipy
+Requires-Dist: scikit-learn
+Requires-Dist: sqlalchemy!=1.4.42
+Requires-Dist: snowflake-sqlalchemy
+Provides-Extra: dev
+Requires-Dist: dagster-webserver; extra == "dev"
+Requires-Dist: pytest; extra == "dev"
+Provides-Extra: tests
+Requires-Dist: mypy; extra == "tests"
+Requires-Dist: pylint; extra == "tests"
+Requires-Dist: pytest; extra == "tests"
