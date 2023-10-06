@@ -4,7 +4,7 @@ from pandas_gbq import to_gbq
 
 project_id = "flash-realm-401106"
 dataset_id = "valuationhub"
-table_id = "info"
+table_id = "quotes"
 credentials_file = "flash-realm-401106-a0bf29a37df7.json"
 
 df = pd.read_csv("data/history_merged.csv")
