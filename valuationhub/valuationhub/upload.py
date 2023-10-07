@@ -1,7 +1,6 @@
 import pandas as pd
 from google.oauth2 import service_account
 from pandas_gbq import to_gbq
-from dagster import asset
 
 
 @asset
@@ -9,15 +8,9 @@ def upload_info():
     project_id = "flash-realm-401106"
     dataset_id = "valuationhub"
     table_id = "info"
-    credentials_file = (
-        "/home/chris/code/affinitypropagation/flash-realm-401106-a0bf29a37df7.json"
-    )
+    credentials_file = "flash-realm-401106-a0bf29a37df7.json"
 
-    df = pd.read_csv(
-        "/home/chris/code/affinitypropagation/data/history_merged_reduced.csv"
-    )
-
-    df["timestamp"] = pd.Timestamp.now()
+    df = pd.read_csv("data/info_merged_reduced.csv")
 
     credentials = service_account.Credentials.from_service_account_file(
         credentials_file, scopes=["https://www.googleapis.com/auth/bigquery"]

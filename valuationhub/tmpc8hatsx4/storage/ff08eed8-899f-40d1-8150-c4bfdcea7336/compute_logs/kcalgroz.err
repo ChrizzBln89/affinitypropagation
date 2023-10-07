@@ -1,0 +1,60 @@
+[32m2023-10-07 15:36:00 +0200[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - ff08eed8-899f-40d1-8150-c4bfdcea7336 - 139312 - LOGS_CAPTURED - Started capturing logs in process (pid: 139312).
+[32m2023-10-07 15:36:00 +0200[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - ff08eed8-899f-40d1-8150-c4bfdcea7336 - 139312 - upload_info - STEP_START - Started execution of step "upload_info".
+[32m2023-10-07 15:36:02 +0200[0m - dagster - [34mERROR[0m - [31m__ASSET_JOB - ff08eed8-899f-40d1-8150-c4bfdcea7336 - 139312 - upload_info - STEP_FAILURE - Execution of step "upload_info" failed.
+
+dagster._core.errors.DagsterExecutionStepExecutionError: Error occurred while executing op "upload_info"::
+
+pandas_gbq.gbq.InvalidSchema: Reason: Provided Schema does not match Table flash-realm-401106:valuationhub.info. Cannot add fields (field: timestamp)
+
+Stack Trace:
+  File "/home/chris/.pyenv/versions/valuationhub/lib/python3.10/site-packages/dagster/_core/execution/plan/utils.py", line 54, in op_execution_error_boundary
+    yield
+  File "/home/chris/.pyenv/versions/valuationhub/lib/python3.10/site-packages/dagster/_utils/__init__.py", line 443, in iterate_with_context
+    next_output = next(iterator)
+  File "/home/chris/.pyenv/versions/valuationhub/lib/python3.10/site-packages/dagster/_core/execution/plan/compute_generator.py", line 136, in _coerce_op_compute_fn_to_iterator
+    result = invoke_compute_fn(
+  File "/home/chris/.pyenv/versions/valuationhub/lib/python3.10/site-packages/dagster/_core/execution/plan/compute_generator.py", line 130, in invoke_compute_fn
+    return fn(context, **args_to_pass) if context_arg_provided else fn(**args_to_pass)
+  File "/home/chris/code/affinitypropagation/valuationhub/valuationhub/assets.py", line 28, in upload_info
+    to_gbq(
+  File "/home/chris/.pyenv/versions/valuationhub/lib/python3.10/site-packages/pandas_gbq/gbq.py", line 1220, in to_gbq
+    connector.load_data(
+  File "/home/chris/.pyenv/versions/valuationhub/lib/python3.10/site-packages/pandas_gbq/gbq.py", line 622, in load_data
+    self.process_http_error(ex)
+  File "/home/chris/.pyenv/versions/valuationhub/lib/python3.10/site-packages/pandas_gbq/gbq.py", line 391, in process_http_error
+    raise InvalidSchema(f"Reason: {error_message}")
+
+The above exception occurred during handling of the following exception:
+google.api_core.exceptions.BadRequest: 400 POST https://bigquery.googleapis.com/upload/bigquery/v2/projects/flash-realm-401106/jobs?uploadType=multipart: Provided Schema does not match Table flash-realm-401106:valuationhub.info. Cannot add fields (field: timestamp)
+
+Stack Trace:
+  File "/home/chris/.pyenv/versions/valuationhub/lib/python3.10/site-packages/pandas_gbq/gbq.py", line 602, in load_data
+    chunks = load.load_chunks(
+  File "/home/chris/.pyenv/versions/valuationhub/lib/python3.10/site-packages/pandas_gbq/load.py", line 243, in load_chunks
+    load_parquet(
+  File "/home/chris/.pyenv/versions/valuationhub/lib/python3.10/site-packages/pandas_gbq/load.py", line 131, in load_parquet
+    client.load_table_from_dataframe(
+  File "/home/chris/.pyenv/versions/valuationhub/lib/python3.10/site-packages/google/cloud/bigquery/client.py", line 2737, in load_table_from_dataframe
+    return self.load_table_from_file(
+  File "/home/chris/.pyenv/versions/valuationhub/lib/python3.10/site-packages/google/cloud/bigquery/client.py", line 2493, in load_table_from_file
+    raise exceptions.from_http_response(exc.response)
+
+The above exception occurred during handling of the following exception:
+google.resumable_media.common.InvalidResponse: ('Request failed with status code', 400, 'Expected one of', <HTTPStatus.OK: 200>)
+
+Stack Trace:
+  File "/home/chris/.pyenv/versions/valuationhub/lib/python3.10/site-packages/google/cloud/bigquery/client.py", line 2489, in load_table_from_file
+    response = self._do_multipart_upload(
+  File "/home/chris/.pyenv/versions/valuationhub/lib/python3.10/site-packages/google/cloud/bigquery/client.py", line 3056, in _do_multipart_upload
+    response = upload.transmit(
+  File "/home/chris/.pyenv/versions/valuationhub/lib/python3.10/site-packages/google/resumable_media/requests/upload.py", line 153, in transmit
+    return _request_helpers.wait_and_retry(
+  File "/home/chris/.pyenv/versions/valuationhub/lib/python3.10/site-packages/google/resumable_media/requests/_request_helpers.py", line 155, in wait_and_retry
+    response = func()
+  File "/home/chris/.pyenv/versions/valuationhub/lib/python3.10/site-packages/google/resumable_media/requests/upload.py", line 149, in retriable_request
+    self._process_response(result)
+  File "/home/chris/.pyenv/versions/valuationhub/lib/python3.10/site-packages/google/resumable_media/_upload.py", line 125, in _process_response
+    _helpers.require_status_code(response, (http.client.OK,), self._get_status_code)
+  File "/home/chris/.pyenv/versions/valuationhub/lib/python3.10/site-packages/google/resumable_media/_helpers.py", line 108, in require_status_code
+    raise common.InvalidResponse(
+[0m

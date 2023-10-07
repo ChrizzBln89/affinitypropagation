@@ -1,0 +1,24 @@
+[32m2023-10-07 15:20:43 +0200[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - 5ab79ec4-ca0b-4dd6-8d96-07f724e23b36 - 103651 - LOGS_CAPTURED - Started capturing logs in process (pid: 103651).
+[32m2023-10-07 15:20:43 +0200[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - 5ab79ec4-ca0b-4dd6-8d96-07f724e23b36 - 103651 - upload_info - STEP_START - Started execution of step "upload_info".
+[32m2023-10-07 15:20:43 +0200[0m - dagster - [34mERROR[0m - [31m__ASSET_JOB - 5ab79ec4-ca0b-4dd6-8d96-07f724e23b36 - 103651 - upload_info - STEP_FAILURE - Execution of step "upload_info" failed.
+
+dagster._core.errors.DagsterExecutionStepExecutionError: Error occurred while executing op "upload_info"::
+
+FileNotFoundError: [Errno 2] No such file or directory: 'flash-realm-401106-a0bf29a37df7.json'
+
+Stack Trace:
+  File "/home/chris/.pyenv/versions/valuationhub/lib/python3.10/site-packages/dagster/_core/execution/plan/utils.py", line 54, in op_execution_error_boundary
+    yield
+  File "/home/chris/.pyenv/versions/valuationhub/lib/python3.10/site-packages/dagster/_utils/__init__.py", line 443, in iterate_with_context
+    next_output = next(iterator)
+  File "/home/chris/.pyenv/versions/valuationhub/lib/python3.10/site-packages/dagster/_core/execution/plan/compute_generator.py", line 136, in _coerce_op_compute_fn_to_iterator
+    result = invoke_compute_fn(
+  File "/home/chris/.pyenv/versions/valuationhub/lib/python3.10/site-packages/dagster/_core/execution/plan/compute_generator.py", line 130, in invoke_compute_fn
+    return fn(context, **args_to_pass) if context_arg_provided else fn(**args_to_pass)
+  File "/home/chris/code/affinitypropagation/valuationhub/valuationhub/assets.py", line 18, in upload_info
+    credentials = service_account.Credentials.from_service_account_file(
+  File "/home/chris/.pyenv/versions/valuationhub/lib/python3.10/site-packages/google/oauth2/service_account.py", line 260, in from_service_account_file
+    info, signer = _service_account_info.from_filename(
+  File "/home/chris/.pyenv/versions/valuationhub/lib/python3.10/site-packages/google/auth/_service_account_info.py", line 78, in from_filename
+    with io.open(filename, "r", encoding="utf-8") as json_file:
+[0m
