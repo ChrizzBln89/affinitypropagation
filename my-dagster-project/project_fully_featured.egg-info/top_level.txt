@@ -1,2 +1,0 @@
-project_fully_featured
-project_fully_featured_tests
