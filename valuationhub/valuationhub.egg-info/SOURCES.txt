@@ -4,7 +4,8 @@ setup.cfg
 setup.py
 valuationhub/__init__.py
 valuationhub/assets.py
-valuationhub/upload.py
+valuationhub/h_quotes.py
+valuationhub/symbol.py
 valuationhub.egg-info/PKG-INFO
 valuationhub.egg-info/SOURCES.txt
 valuationhub.egg-info/dependency_links.txt

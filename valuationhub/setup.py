@@ -8,6 +8,9 @@ setup(
         "dagster-cloud",
         "pandas_gbq",
         "yfinance",
+        "tqdm",
+        "h_quotes",
+        "symbol",
     ],
     extras_require={"dev": ["dagster-webserver", "pytest"]},
 )

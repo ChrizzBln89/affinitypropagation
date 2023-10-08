@@ -5,6 +5,9 @@ Requires-Dist: dagster
 Requires-Dist: dagster-cloud
 Requires-Dist: pandas_gbq
 Requires-Dist: yfinance
+Requires-Dist: tqdm
+Requires-Dist: h_quotes
+Requires-Dist: symbol
 Provides-Extra: dev
 Requires-Dist: dagster-webserver; extra == "dev"
 Requires-Dist: pytest; extra == "dev"

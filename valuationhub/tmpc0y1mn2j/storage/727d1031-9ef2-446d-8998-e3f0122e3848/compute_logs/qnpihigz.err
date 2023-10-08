@@ -1,0 +1,26 @@
+[32m2023-10-08 08:41:45 +0200[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - 727d1031-9ef2-446d-8998-e3f0122e3848 - 25458 - LOGS_CAPTURED - Started capturing logs in process (pid: 25458).
+[32m2023-10-08 08:41:45 +0200[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - 727d1031-9ef2-446d-8998-e3f0122e3848 - 25458 - quotes_update - STEP_START - Started execution of step "quotes_update".
+/home/chris/code/affinitypropagation/valuationhub/valuationhub/assets.py:43: DtypeWarning: Columns (7) have mixed types. Specify dtype option on import or set low_memory=False.
+  data = pd.read_csv(
+[32m2023-10-08 08:41:45 +0200[0m - dagster - [34mERROR[0m - [31m__ASSET_JOB - 727d1031-9ef2-446d-8998-e3f0122e3848 - 25458 - quotes_update - STEP_FAILURE - Execution of step "quotes_update" failed.
+
+dagster._core.errors.DagsterExecutionStepExecutionError: Error occurred while executing op "quotes_update"::
+
+NameError: name 'tqdm' is not defined
+
+Stack Trace:
+  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/dagster/_core/execution/plan/utils.py", line 54, in op_execution_error_boundary
+    yield
+  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/dagster/_utils/__init__.py", line 443, in iterate_with_context
+    next_output = next(iterator)
+                  ^^^^^^^^^^^^^^
+  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/dagster/_core/execution/plan/compute_generator.py", line 136, in _coerce_op_compute_fn_to_iterator
+    result = invoke_compute_fn(
+             ^^^^^^^^^^^^^^^^^^
+  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/dagster/_core/execution/plan/compute_generator.py", line 130, in invoke_compute_fn
+    return fn(context, **args_to_pass) if context_arg_provided else fn(**args_to_pass)
+                                                                    ^^^^^^^^^^^^^^^^^^
+  File "/home/chris/code/affinitypropagation/valuationhub/valuationhub/assets.py", line 50, in quotes_update
+    for symbol in tqdm.tqdm(
+                  ^^^^
+[0m

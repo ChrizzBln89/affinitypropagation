@@ -2,6 +2,9 @@ dagster
 dagster-cloud
 pandas_gbq
 yfinance
+tqdm
+h_quotes
+symbol
 
 [dev]
 dagster-webserver
