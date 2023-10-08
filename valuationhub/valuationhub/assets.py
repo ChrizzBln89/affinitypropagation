@@ -69,10 +69,11 @@ def upload_quotes():
     return df
 
 
+@asset(deps=[get_symbols])
 def upload_info():
     project_id = "flash-realm-401106"
     dataset_id = "valuationhub"
-    table_id = "info"
+    table_id = "h_info"
     credentials_file = (
         "/home/chris/code/affinitypropagation/flash-realm-401106-a0bf29a37df7.json"
     )

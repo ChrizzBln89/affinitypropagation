@@ -2,7 +2,7 @@ from class_peer_group import Peer_Group
 import pytest
 import pandas as pd
 
-from valuationhub.valuationhub.assets import get_symbols
+from valuationhub.valuationhub.assets import get_symbols, upload_quotes
 
 pg = Peer_Group()
 
@@ -33,8 +33,19 @@ def test_peer_group_stock_data():
 
 
 def test_peer_group_stock_data():
-    pass
+    comp_list_symbol = list(set(pg.historical_data["symbol"]))
+    assert "AAPL" in comp_list_symbol
+    assert "Adj Close" in pg.historical_data.columns
+    assert pg.peer_companies == comp_list_symbol
+    assert type(pg.historical_data) == pd.DataFrame
 
 
 def test_get_symbols():
-    assert type(get_symbols()) == list
+    symbols = get_symbols()
+    assert type(symbols) == list
+    assert "AAPL" in symbols
+    assert type(symbols[0]) == str
+
+
+def test_upload_quotes():
+    assert type(upload_quotes()) == pd.DataFrame
