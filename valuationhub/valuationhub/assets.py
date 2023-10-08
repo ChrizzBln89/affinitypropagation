@@ -1,16 +1,19 @@
+import yfinance as yf
+import tqdm
 import pandas as pd
+
+from pathlib import Path
 from google.oauth2 import service_account
 from pandas_gbq import to_gbq
 from dagster import asset
-import yfinance as yf
-import tqdm
+
+PATH_MAIN_DIR = str(Path(__file__).parent.parent.parent)
+PATH_DATA_DIR = str(PATH_MAIN_DIR + "/data")
 
 
 @asset
 def get_symbols():
-    data = pd.read_csv(
-        "/home/chris/code/affinitypropagation/data/Yahoo Ticker Symbols - September 2017.csv"
-    )
+    data = pd.read_csv(PATH_DATA_DIR + "/Yahoo Ticker Symbols - September 2017.csv")
     tickers = list(data["Yahoo Stock Tickers"].dropna().iloc[2:].values)[0:10]
     return tickers
 
@@ -46,7 +49,7 @@ def upload_quotes():
     project_id = "flash-realm-401106"
     dataset_id = "valuationhub"
     table_id = "h_quotes"
-    credentials_file = "flash-realm-401106-a0bf29a37df7.json"
+    credentials_file = PATH_MAIN_DIR + "/flash-realm-401106-a0bf29a37df7.json"
 
     credentials = service_account.Credentials.from_service_account_file(
         credentials_file, scopes=["https://www.googleapis.com/auth/bigquery"]
@@ -58,7 +61,7 @@ def upload_quotes():
         df,
         destination_table,
         project_id=project_id,
-        if_exists="replace",  # Choose whether to replace or append to the table
+        if_exists="append",  # Choose whether to replace or append to the table
         credentials=credentials,  # Specify the schema for the table
     )
 
@@ -66,7 +69,6 @@ def upload_quotes():
     return df
 
 
-@asset()
 def upload_info():
     project_id = "flash-realm-401106"
     dataset_id = "valuationhub"

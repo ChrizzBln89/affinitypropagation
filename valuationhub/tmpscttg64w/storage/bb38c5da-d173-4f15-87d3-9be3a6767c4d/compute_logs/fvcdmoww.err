@@ -1,34 +1,0 @@
-[32m2023-10-08 09:16:25 +0200[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - bb38c5da-d173-4f15-87d3-9be3a6767c4d - 110057 - LOGS_CAPTURED - Started capturing logs in process (pid: 110057).
-[32m2023-10-08 09:16:25 +0200[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - bb38c5da-d173-4f15-87d3-9be3a6767c4d - 110057 - upload_quotes - STEP_START - Started execution of step "upload_quotes".
-/home/chris/code/affinitypropagation/valuationhub/valuationhub/assets.py:11: DtypeWarning: Columns (7) have mixed types. Specify dtype option on import or set low_memory=False.
-  data = pd.read_csv(
-Progress merge:   0%|[38;2;0;209;17m                                                        [0m| 0/10 [00:00<?, ?it/s][0mOEDV: No price data found, symbol may be delisted (period=1mo)
-Progress merge:  10%|[38;2;0;209;17m████▊                                           [0m| 1/10 [00:00<00:04,  1.84it/s][0mProgress merge:  20%|[38;2;0;209;17m█████████▌                                      [0m| 2/10 [00:01<00:04,  1.76it/s][0mProgress merge:  30%|[38;2;0;209;17m██████████████▍                                 [0m| 3/10 [00:01<00:04,  1.71it/s][0mProgress merge:  40%|[38;2;0;209;17m███████████████████▏                            [0m| 4/10 [00:02<00:03,  1.81it/s][0mProgress merge:  50%|[38;2;0;209;17m████████████████████████                        [0m| 5/10 [00:02<00:02,  1.78it/s][0mProgress merge:  60%|[38;2;0;209;17m████████████████████████████▊                   [0m| 6/10 [00:03<00:02,  1.79it/s][0mProgress merge:  70%|[38;2;0;209;17m█████████████████████████████████▌              [0m| 7/10 [00:03<00:01,  1.73it/s][0mProgress merge:  80%|[38;2;0;209;17m██████████████████████████████████████▍         [0m| 8/10 [00:04<00:01,  1.83it/s][0mProgress merge:  90%|[38;2;0;209;17m███████████████████████████████████████████▏    [0m| 9/10 [00:05<00:00,  1.70it/s][0mProgress merge: 100%|[38;2;0;209;17m███████████████████████████████████████████████[0m| 10/10 [00:05<00:00,  1.65it/s][0mProgress merge: 100%|[38;2;0;209;17m███████████████████████████████████████████████[0m| 10/10 [00:05<00:00,  1.73it/s][0m
-[32m2023-10-08 09:16:31 +0200[0m - dagster - [34mERROR[0m - [31m__ASSET_JOB - bb38c5da-d173-4f15-87d3-9be3a6767c4d - 110057 - upload_quotes - STEP_FAILURE - Execution of step "upload_quotes" failed.
-
-dagster._core.errors.DagsterExecutionStepExecutionError: Error occurred while executing op "upload_quotes"::
-
-FileNotFoundError: [Errno 2] No such file or directory: 'flash-realm-401106-a0bf29a37df7.json'
-
-Stack Trace:
-  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/dagster/_core/execution/plan/utils.py", line 54, in op_execution_error_boundary
-    yield
-  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/dagster/_utils/__init__.py", line 443, in iterate_with_context
-    next_output = next(iterator)
-                  ^^^^^^^^^^^^^^
-  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/dagster/_core/execution/plan/compute_generator.py", line 136, in _coerce_op_compute_fn_to_iterator
-    result = invoke_compute_fn(
-             ^^^^^^^^^^^^^^^^^^
-  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/dagster/_core/execution/plan/compute_generator.py", line 130, in invoke_compute_fn
-    return fn(context, **args_to_pass) if context_arg_provided else fn(**args_to_pass)
-                                                                    ^^^^^^^^^^^^^^^^^^
-  File "/home/chris/code/affinitypropagation/valuationhub/valuationhub/assets.py", line 51, in upload_quotes
-    credentials = service_account.Credentials.from_service_account_file(
-                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/google/oauth2/service_account.py", line 260, in from_service_account_file
-    info, signer = _service_account_info.from_filename(
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/google/auth/_service_account_info.py", line 80, in from_filename
-    with io.open(filename, "r", encoding="utf-8") as json_file:
-         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[0m

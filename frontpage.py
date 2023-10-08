@@ -1,8 +1,8 @@
 import streamlit as st
-from peer_group_user import peer_group_user
-from beta_page import beta_page
-from peergroup_page import peergroup_page
-from db import db
+from modules.pages.peer_group_user import peer_group_user
+from modules.pages.beta_page import beta_page
+from modules.pages.peergroup_page import peergroup_page
+from modules.pages.db import db
 
 st.set_page_config(layout="wide")
 
