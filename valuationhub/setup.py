@@ -5,7 +5,9 @@ setup(
     packages=find_packages(exclude=["valuationhub_tests"]),
     install_requires=[
         "dagster",
-        "dagster-cloud"
+        "dagster-cloud",
+        "pandas_gbq",
+        "yfinance",
     ],
     extras_require={"dev": ["dagster-webserver", "pytest"]},
 )

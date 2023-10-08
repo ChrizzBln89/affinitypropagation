@@ -2,3 +2,5 @@
 flash-realm-401106-a0bf29a37df7.json
 /__pycache__
 .pytest_cache
+__pycache__/
+*.py[cod]

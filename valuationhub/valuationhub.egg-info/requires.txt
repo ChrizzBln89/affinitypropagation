@@ -1,5 +1,7 @@
 dagster
 dagster-cloud
+pandas_gbq
+yfinance
 
 [dev]
 dagster-webserver
