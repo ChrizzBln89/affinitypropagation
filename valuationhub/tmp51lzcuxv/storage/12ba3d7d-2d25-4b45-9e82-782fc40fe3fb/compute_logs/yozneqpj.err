@@ -1,0 +1,49 @@
+[32m2023-10-09 08:40:15 +0200[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - 12ba3d7d-2d25-4b45-9e82-782fc40fe3fb - 235675 - LOGS_CAPTURED - Started capturing logs in process (pid: 235675).
+[32m2023-10-09 08:40:15 +0200[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - 12ba3d7d-2d25-4b45-9e82-782fc40fe3fb - 235675 - upload_income_stmt - STEP_START - Started execution of step "upload_income_stmt".
+/home/chris/code/affinitypropagation/valuationhub/valuationhub/assets.py:107: DtypeWarning: Columns (7) have mixed types. Specify dtype option on import or set low_memory=False.
+  data = pd.read_csv(
+Progress merge:   0%|[38;2;0;209;17m                                                        [0m| 0/10 [00:00<?, ?it/s][0mProgress merge:  10%|[38;2;0;209;17m████▊                                           [0m| 1/10 [00:00<00:03,  2.56it/s][0mProgress merge:  20%|[38;2;0;209;17m█████████▌                                      [0m| 2/10 [00:00<00:03,  2.61it/s][0mProgress merge:  30%|[38;2;0;209;17m██████████████▍                                 [0m| 3/10 [00:01<00:02,  2.90it/s][0mProgress merge:  40%|[38;2;0;209;17m███████████████████▏                            [0m| 4/10 [00:01<00:02,  2.87it/s][0mProgress merge:  50%|[38;2;0;209;17m████████████████████████                        [0m| 5/10 [00:01<00:01,  2.86it/s][0mProgress merge:  60%|[38;2;0;209;17m████████████████████████████▊                   [0m| 6/10 [00:02<00:01,  2.68it/s][0mProgress merge:  70%|[38;2;0;209;17m█████████████████████████████████▌              [0m| 7/10 [00:02<00:01,  2.62it/s][0mProgress merge:  80%|[38;2;0;209;17m██████████████████████████████████████▍         [0m| 8/10 [00:02<00:00,  2.67it/s][0mProgress merge:  90%|[38;2;0;209;17m███████████████████████████████████████████▏    [0m| 9/10 [00:03<00:00,  2.72it/s][0mProgress merge: 100%|[38;2;0;209;17m███████████████████████████████████████████████[0m| 10/10 [00:03<00:00,  2.72it/s][0mProgress merge: 100%|[38;2;0;209;17m███████████████████████████████████████████████[0m| 10/10 [00:03<00:00,  2.72it/s][0m
+[32m2023-10-09 08:40:20 +0200[0m - dagster - [34mERROR[0m - [31m__ASSET_JOB - 12ba3d7d-2d25-4b45-9e82-782fc40fe3fb - 235675 - upload_income_stmt - STEP_FAILURE - Execution of step "upload_income_stmt" failed.
+
+dagster._core.errors.DagsterExecutionStepExecutionError: Error occurred while executing op "upload_income_stmt"::
+
+pyarrow.lib.ArrowTypeError: Expected bytes, got a 'float' object
+
+Stack Trace:
+  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/dagster/_core/execution/plan/utils.py", line 54, in op_execution_error_boundary
+    yield
+  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/dagster/_utils/__init__.py", line 443, in iterate_with_context
+    next_output = next(iterator)
+                  ^^^^^^^^^^^^^^
+  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/dagster/_core/execution/plan/compute_generator.py", line 136, in _coerce_op_compute_fn_to_iterator
+    result = invoke_compute_fn(
+             ^^^^^^^^^^^^^^^^^^
+  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/dagster/_core/execution/plan/compute_generator.py", line 130, in invoke_compute_fn
+    return fn(context, **args_to_pass) if context_arg_provided else fn(**args_to_pass)
+                                                                    ^^^^^^^^^^^^^^^^^^
+  File "/home/chris/code/affinitypropagation/valuationhub/valuationhub/assets.py", line 145, in upload_income_stmt
+    to_gbq(
+  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/pandas_gbq/gbq.py", line 1220, in to_gbq
+    connector.load_data(
+  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/pandas_gbq/gbq.py", line 602, in load_data
+    chunks = load.load_chunks(
+             ^^^^^^^^^^^^^^^^^
+  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/pandas_gbq/load.py", line 243, in load_chunks
+    load_parquet(
+  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/pandas_gbq/load.py", line 131, in load_parquet
+    client.load_table_from_dataframe(
+  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/google/cloud/bigquery/client.py", line 2705, in load_table_from_dataframe
+    _pandas_helpers.dataframe_to_parquet(
+  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/google/cloud/bigquery/_pandas_helpers.py", line 719, in dataframe_to_parquet
+    arrow_table = dataframe_to_arrow(dataframe, bq_schema)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/google/cloud/bigquery/_pandas_helpers.py", line 662, in dataframe_to_arrow
+    bq_to_arrow_array(get_column_or_index(dataframe, bq_field.name), bq_field)
+  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/google/cloud/bigquery/_pandas_helpers.py", line 380, in bq_to_arrow_array
+    return pyarrow.Array.from_pandas(series, type=arrow_type)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "pyarrow/array.pxi", line 1099, in pyarrow.lib.Array.from_pandas
+  File "pyarrow/array.pxi", line 323, in pyarrow.lib.array
+  File "pyarrow/array.pxi", line 83, in pyarrow.lib._ndarray_to_array
+  File "pyarrow/error.pxi", line 123, in pyarrow.lib.check_status
+[0m

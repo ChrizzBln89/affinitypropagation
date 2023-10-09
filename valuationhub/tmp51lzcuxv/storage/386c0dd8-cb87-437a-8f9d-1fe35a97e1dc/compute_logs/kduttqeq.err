@@ -1,0 +1,78 @@
+[32m2023-10-09 08:37:57 +0200[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - 386c0dd8-cb87-437a-8f9d-1fe35a97e1dc - 230051 - LOGS_CAPTURED - Started capturing logs in process (pid: 230051).
+[32m2023-10-09 08:37:57 +0200[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - 386c0dd8-cb87-437a-8f9d-1fe35a97e1dc - 230051 - upload_income_stmt - STEP_START - Started execution of step "upload_income_stmt".
+/home/chris/code/affinitypropagation/valuationhub/valuationhub/assets.py:107: DtypeWarning: Columns (7) have mixed types. Specify dtype option on import or set low_memory=False.
+  data = pd.read_csv(
+Progress merge:   0%|[38;2;0;209;17m                                                        [0m| 0/10 [00:00<?, ?it/s][0mProgress merge:  10%|[38;2;0;209;17m████▊                                           [0m| 1/10 [00:00<00:03,  2.62it/s][0mProgress merge:  20%|[38;2;0;209;17m█████████▌                                      [0m| 2/10 [00:00<00:02,  3.15it/s][0mProgress merge:  30%|[38;2;0;209;17m██████████████▍                                 [0m| 3/10 [00:01<00:02,  3.02it/s][0mProgress merge:  40%|[38;2;0;209;17m███████████████████▏                            [0m| 4/10 [00:01<00:02,  2.87it/s][0mProgress merge:  50%|[38;2;0;209;17m████████████████████████                        [0m| 5/10 [00:01<00:01,  2.89it/s][0mProgress merge:  60%|[38;2;0;209;17m████████████████████████████▊                   [0m| 6/10 [00:02<00:01,  2.97it/s][0mProgress merge:  70%|[38;2;0;209;17m█████████████████████████████████▌              [0m| 7/10 [00:02<00:01,  2.77it/s][0mProgress merge:  80%|[38;2;0;209;17m██████████████████████████████████████▍         [0m| 8/10 [00:02<00:00,  2.90it/s][0mProgress merge:  90%|[38;2;0;209;17m███████████████████████████████████████████▏    [0m| 9/10 [00:03<00:00,  2.89it/s][0mProgress merge: 100%|[38;2;0;209;17m███████████████████████████████████████████████[0m| 10/10 [00:03<00:00,  2.87it/s][0mProgress merge: 100%|[38;2;0;209;17m███████████████████████████████████████████████[0m| 10/10 [00:03<00:00,  2.89it/s][0m
+[32m2023-10-09 08:38:03 +0200[0m - dagster - [34mERROR[0m - [31m__ASSET_JOB - 386c0dd8-cb87-437a-8f9d-1fe35a97e1dc - 230051 - upload_income_stmt - STEP_FAILURE - Execution of step "upload_income_stmt" failed.
+
+dagster._core.errors.DagsterExecutionStepExecutionError: Error occurred while executing op "upload_income_stmt"::
+
+TypeError: Object of type Timestamp is not JSON serializable
+
+Stack Trace:
+  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/dagster/_core/execution/plan/utils.py", line 54, in op_execution_error_boundary
+    yield
+  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/dagster/_utils/__init__.py", line 443, in iterate_with_context
+    next_output = next(iterator)
+                  ^^^^^^^^^^^^^^
+  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/dagster/_core/execution/plan/compute_generator.py", line 136, in _coerce_op_compute_fn_to_iterator
+    result = invoke_compute_fn(
+             ^^^^^^^^^^^^^^^^^^
+  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/dagster/_core/execution/plan/compute_generator.py", line 130, in invoke_compute_fn
+    return fn(context, **args_to_pass) if context_arg_provided else fn(**args_to_pass)
+                                                                    ^^^^^^^^^^^^^^^^^^
+  File "/home/chris/code/affinitypropagation/valuationhub/valuationhub/assets.py", line 145, in upload_income_stmt
+    to_gbq(
+  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/pandas_gbq/gbq.py", line 1206, in to_gbq
+    table_connector.create(table_id, table_schema)
+  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/pandas_gbq/gbq.py", line 1352, in create
+    self.client.create_table(table)
+  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/google/cloud/bigquery/client.py", line 782, in create_table
+    api_response = self._call_api(
+                   ^^^^^^^^^^^^^^^
+  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/google/cloud/bigquery/client.py", line 816, in _call_api
+    return call()
+           ^^^^^^
+  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/google/api_core/retry.py", line 366, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/google/api_core/retry.py", line 204, in retry_target
+    return target()
+           ^^^^^^^^
+  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/google/cloud/_http/__init__.py", line 479, in api_request
+    data = json.dumps(data)
+           ^^^^^^^^^^^^^^^^
+  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/json/__init__.py", line 231, in dumps
+    return _default_encoder.encode(obj)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/json/encoder.py", line 200, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/json/encoder.py", line 258, in iterencode
+    return _iterencode(o, 0)
+           ^^^^^^^^^^^^^^^^^
+  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/json/encoder.py", line 180, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+
+The above exception occurred during handling of the following exception:
+google.api_core.exceptions.NotFound: 404 GET https://bigquery.googleapis.com/bigquery/v2/projects/flash-realm-401106/datasets/valuationhub/tables/h_income_stmt?prettyPrint=false: Not found: Table flash-realm-401106:valuationhub.h_income_stmt
+
+Stack Trace:
+  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/pandas_gbq/gbq.py", line 1197, in to_gbq
+    table = bqclient.get_table(destination_table_ref)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/google/cloud/bigquery/client.py", line 1068, in get_table
+    api_response = self._call_api(
+                   ^^^^^^^^^^^^^^^
+  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/google/cloud/bigquery/client.py", line 816, in _call_api
+    return call()
+           ^^^^^^
+  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/google/api_core/retry.py", line 366, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/google/api_core/retry.py", line 204, in retry_target
+    return target()
+           ^^^^^^^^
+  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/google/cloud/_http/__init__.py", line 494, in api_request
+    raise exceptions.from_http_response(response)
+[0m

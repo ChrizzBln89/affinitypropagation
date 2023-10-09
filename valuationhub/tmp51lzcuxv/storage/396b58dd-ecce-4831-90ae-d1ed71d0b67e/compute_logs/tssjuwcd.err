@@ -1,0 +1,9 @@
+[32m2023-10-09 08:31:42 +0200[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - 396b58dd-ecce-4831-90ae-d1ed71d0b67e - 214911 - LOGS_CAPTURED - Started capturing logs in process (pid: 214911).
+[32m2023-10-09 08:31:42 +0200[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - 396b58dd-ecce-4831-90ae-d1ed71d0b67e - 214911 - get_symbols - STEP_START - Started execution of step "get_symbols".
+/home/chris/code/affinitypropagation/valuationhub/valuationhub/assets.py:16: DtypeWarning: Columns (7) have mixed types. Specify dtype option on import or set low_memory=False.
+  data = pd.read_csv(PATH_DATA_DIR + "/Yahoo Ticker Symbols - September 2017.csv")
+[32m2023-10-09 08:31:42 +0200[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - 396b58dd-ecce-4831-90ae-d1ed71d0b67e - 214911 - get_symbols - STEP_OUTPUT - Yielded output "result" of type "Any". (Type check passed).
+[32m2023-10-09 08:31:42 +0200[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - 396b58dd-ecce-4831-90ae-d1ed71d0b67e - get_symbols - Writing file at: /home/chris/code/affinitypropagation/valuationhub/tmp51lzcuxv/storage/get_symbols using PickledObjectFilesystemIOManager...
+[32m2023-10-09 08:31:42 +0200[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - 396b58dd-ecce-4831-90ae-d1ed71d0b67e - 214911 - get_symbols - ASSET_MATERIALIZATION - Materialized value get_symbols.
+[32m2023-10-09 08:31:42 +0200[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - 396b58dd-ecce-4831-90ae-d1ed71d0b67e - 214911 - get_symbols - HANDLED_OUTPUT - Handled output "result" using IO manager "io_manager"
+[32m2023-10-09 08:31:42 +0200[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - 396b58dd-ecce-4831-90ae-d1ed71d0b67e - 214911 - get_symbols - STEP_SUCCESS - Finished execution of step "get_symbols" in 308ms.
