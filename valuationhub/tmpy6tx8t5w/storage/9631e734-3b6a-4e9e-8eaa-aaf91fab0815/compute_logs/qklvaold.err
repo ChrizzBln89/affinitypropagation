@@ -1,0 +1,27 @@
+[32m2023-10-09 15:16:24 +0200[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - 9631e734-3b6a-4e9e-8eaa-aaf91fab0815 - 504295 - LOGS_CAPTURED - Started capturing logs in process (pid: 504295).
+[32m2023-10-09 15:16:24 +0200[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - 9631e734-3b6a-4e9e-8eaa-aaf91fab0815 - 504295 - get_symbols - STEP_START - Started execution of step "get_symbols".
+[32m2023-10-09 15:16:24 +0200[0m - dagster - [34mERROR[0m - [31m__ASSET_JOB - 9631e734-3b6a-4e9e-8eaa-aaf91fab0815 - 504295 - get_symbols - STEP_FAILURE - Execution of step "get_symbols" failed.
+
+dagster._core.errors.DagsterExecutionStepExecutionError: Error occurred while executing op "get_symbols"::
+
+FileNotFoundError: [Errno 2] No such file or directory: 'flash-realm-401106-a0bf29a37df7.json'
+
+Stack Trace:
+  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/dagster/_core/execution/plan/utils.py", line 54, in op_execution_error_boundary
+    yield
+  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/dagster/_utils/__init__.py", line 443, in iterate_with_context
+    next_output = next(iterator)
+                  ^^^^^^^^^^^^^^
+  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/dagster/_core/execution/plan/compute_generator.py", line 136, in _coerce_op_compute_fn_to_iterator
+    result = invoke_compute_fn(
+             ^^^^^^^^^^^^^^^^^^
+  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/dagster/_core/execution/plan/compute_generator.py", line 130, in invoke_compute_fn
+    return fn(context, **args_to_pass) if context_arg_provided else fn(**args_to_pass)
+                                                                    ^^^^^^^^^^^^^^^^^^
+  File "/home/chris/code/affinitypropagation/valuationhub/valuationhub/assets.py", line 18, in get_symbols
+    client = bigquery.Client.from_service_account_json(service_account_json)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/chris/.pyenv/versions/3.11.4/lib/python3.11/site-packages/google/cloud/client/__init__.py", line 106, in from_service_account_json
+    with io.open(json_credentials_path, "r", encoding="utf-8") as json_fi:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[0m

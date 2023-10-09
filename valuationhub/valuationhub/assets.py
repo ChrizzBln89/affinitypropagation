@@ -4,6 +4,7 @@ import pandas as pd
 
 from pathlib import Path
 from google.oauth2 import service_account
+from google.cloud import bigquery
 from pandas_gbq import to_gbq
 from dagster import RunRequest, asset, define_asset_job, sensor
 
@@ -13,14 +14,21 @@ PATH_DATA_DIR = str(PATH_MAIN_DIR + "/data")
 
 @asset
 def get_symbols():
-    data = pd.read_csv(PATH_DATA_DIR + "/Yahoo Ticker Symbols - September 2017.csv")
-    tickers = list(data["Yahoo Stock Tickers"].dropna().iloc[2:].values)[0:10]
+    service_account_json = PATH_MAIN_DIR + "/flash-realm-401106-a0bf29a37df7.json"
+    client = bigquery.Client.from_service_account_json(service_account_json)
+
+    query = """
+    SELECT DISTINCT(symbol)
+    FROM flash-realm-401106.valuationhub.h_info
+    """
+    df = client.query(query).to_dataframe()
+    tickers = df["symbol"].values
     return tickers
 
 
-@asset(deps=[get_symbols])
-def upload_quotes():
-    tickers = get_symbols()
+@asset()
+def upload_quotes(get_symbols):
+    tickers = get_symbols
     dfs = {}
 
     for symbol in tqdm.tqdm(
@@ -79,7 +87,7 @@ def upload_info():
     )
 
     df = pd.read_csv(
-        "/home/chris/code/affinitypropagation/data/history_merged_reduced.csv"
+        "/home/chris/code/affinitypropagation/data/info_merged_reduced.csv"
     )
 
     df["timestamp"] = pd.Timestamp.now()
@@ -102,12 +110,9 @@ def upload_info():
     return df
 
 
-@asset(deps=[get_symbols])
-def upload_income_stmt():
-    data = pd.read_csv(
-        "/home/chris/code/affinitypropagation/data/Yahoo Ticker Symbols - September 2017.csv"
-    )
-    tickers = list(data["Yahoo Stock Tickers"].dropna().iloc[2:].values)
+@asset()
+def upload_income_stmt(get_symbols):
+    tickers = get_symbols
 
     dfs = {}
 
