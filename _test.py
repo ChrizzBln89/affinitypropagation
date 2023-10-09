@@ -1,3 +1,4 @@
+import numpy as np
 import pytest
 from class_peer_group import Peer_Group
 import pandas as pd
@@ -23,23 +24,23 @@ def test_peer_group_init():
     assert pg.time_interval == 0
 
 
+pg = Peer_Group()
+pg = pg.add_company("AAPL")
+
+
 @pytest.mark.peer_group
-def test_peer_group_add_company():
-    pg = Peer_Group()
-    pg.add_company("AAPL")
+def test_peer_group_add_company(pg):
     assert "AAPL" in pg.peer_companies
     assert isinstance(pg.add_company("AAPL"), list)
 
 
 @pytest.mark.peer_group
-def test_peer_group_company_data():
-    pg = Peer_Group()
+def test_peer_group_company_data(pg):
     assert isinstance(pg.company_data(), pd.DataFrame)
 
 
 @pytest.mark.peer_group
-def test_peer_group_stock_data():
-    pg = Peer_Group()
+def test_peer_group_stock_data(pg):
     assert isinstance(pg.stock_data(), pd.DataFrame)
 
 
@@ -56,14 +57,14 @@ def test_peer_group_stock_data():
 @pytest.mark.gbq
 def test_download_gbq():
     symbols = get_symbols()
-    assert type(symbols) == list
-    assert "AAPL" in symbols
-    assert len(symbols) > 10000
+    assert type(symbols) == np.ndarray
+    assert "AAPL" in list(symbols)
+    assert len(list(symbols)) > 10000
 
 
 @pytest.mark.gbq
 def test_upload_quotes():
-    quotes = upload_quotes()
+    quotes = upload_quotes(get_symbols()[0])
     assert isinstance(quotes, pd.DataFrame)
 
 
@@ -75,5 +76,5 @@ def test_upload_info():
 
 @pytest.mark.gbq
 def test_upload_income_stmt():
-    info = upload_income_stmt()
+    info = upload_income_stmt(get_symbols()[0])
     assert isinstance(info, pd.DataFrame)
