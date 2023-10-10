@@ -1,5 +1,6 @@
 import numpy as np
 import pytest
+from class_gbq import historical_data
 from class_peer_group import Peer_Group
 import pandas as pd
 from valuationhub.valuationhub.assets import (
@@ -17,41 +18,36 @@ def test_peer_group_init():
     assert pg.fill_method == "ffill"
     assert pg.index == "test_index"
     assert isinstance(pg.peer_companies, list)
-    assert isinstance(pg.historical_data, pd.DataFrame)
     assert isinstance(pg.peer_historical_data, pd.DataFrame)
     assert isinstance(pg.info_data, pd.DataFrame)
     assert isinstance(pg.peer_info_data, pd.DataFrame)
     assert pg.time_interval == 0
 
 
-pg = Peer_Group()
-pg = pg.add_company("AAPL")
-
-
 @pytest.mark.peer_group
-def test_peer_group_add_company(pg):
+def test_peer_group_add_company():
+    pg = Peer_Group()
+    pg.add_company("AAPL")
     assert "AAPL" in pg.peer_companies
     assert isinstance(pg.add_company("AAPL"), list)
 
 
 @pytest.mark.peer_group
-def test_peer_group_company_data(pg):
-    assert isinstance(pg.company_data(), pd.DataFrame)
-
-
-@pytest.mark.peer_group
-def test_peer_group_stock_data(pg):
-    assert isinstance(pg.stock_data(), pd.DataFrame)
-
-
-@pytest.mark.peer_group
 def test_peer_group_stock_data():
     pg = Peer_Group()
-    comp_list_symbol = list(set(pg.historical_data["symbol"]))
-    assert "AAPL" in comp_list_symbol
-    assert "Adj Close" in pg.historical_data.columns
-    assert pg.peer_companies == comp_list_symbol
-    assert isinstance(pg.historical_data, pd.DataFrame)
+    pg.add_company("AAPL")
+    df = pg.stock_data()
+    assert "AAPL" in list(df["symbol"])
+    assert "volume" in pg.peer_historical_data.columns
+    assert isinstance(pg.peer_historical_data, pd.DataFrame)
+
+
+@pytest.mark.peer_group
+def test_beta_calc():
+    pg = Peer_Group()
+    pg.add_company("AAPL")
+    pg.stock_data()
+    assert type(pg.beta_calc()) == list
 
 
 @pytest.mark.gbq
@@ -76,5 +72,11 @@ def test_upload_info():
 
 @pytest.mark.gbq
 def test_upload_income_stmt():
-    info = upload_income_stmt(get_symbols()[0])
+    income_stmt = upload_income_stmt(get_symbols()[0])
+    assert isinstance(income_stmt, pd.DataFrame)
+
+
+@pytest.mark.gbq
+def info_data():
+    info = info_data()
     assert isinstance(info, pd.DataFrame)

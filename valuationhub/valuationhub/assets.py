@@ -6,7 +6,14 @@ from pathlib import Path
 from google.oauth2 import service_account
 from google.cloud import bigquery
 from pandas_gbq import to_gbq
-from dagster import RunRequest, asset, define_asset_job, sensor
+from dagster import (
+    AssetCheckResult,
+    RunRequest,
+    asset,
+    asset_check,
+    define_asset_job,
+    sensor,
+)
 
 PATH_MAIN_DIR = str(Path(__file__).parent.parent.parent)
 PATH_DATA_DIR = str(PATH_MAIN_DIR + "/data")
