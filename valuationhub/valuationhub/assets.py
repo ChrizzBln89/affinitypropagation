@@ -1,3 +1,4 @@
+from tomlkit import table
 import yfinance as yf
 import tqdm
 import pandas as pd
@@ -20,6 +21,27 @@ from dagster import (
 
 PATH_MAIN_DIR = str(Path(__file__).parent.parent.parent)
 PATH_DATA_DIR = str(PATH_MAIN_DIR + "/data")
+
+
+def gbq_upload(data: pd.DataFrame, table_id: str):
+    project_id = "flash-realm-401106"
+    dataset_id = "valuationhub"
+    table_id = table_id
+    credentials_file = PATH_MAIN_DIR + "/flash-realm-401106-a0bf29a37df7.json"
+
+    credentials = service_account.Credentials.from_service_account_file(
+        credentials_file, scopes=["https://www.googleapis.com/auth/bigquery"]
+    )
+
+    destination_table = f"{project_id}.{dataset_id}.{table_id}"
+
+    to_gbq(
+        data,
+        destination_table,
+        project_id=project_id,
+        if_exists="append",  # Choose whether to replace or append to the table
+        credentials=credentials,  # Specify the schema for the table
+    )
 
 
 @asset
@@ -47,7 +69,7 @@ def download_index_ticker():
         df = pd.read_html(str(table))[0]
 
     df.columns = df.columns.str.lower()
-    return df["symbol"].values
+    return list(df["symbol"].values)
 
 
 @asset()
@@ -77,31 +99,14 @@ def upload_index_quotes(download_index_ticker):
     df = df.infer_objects()
     df["date"] = df["date"].astype(str)
 
-    project_id = "flash-realm-401106"
-    dataset_id = "valuationhub"
-    table_id = "h_index_quotes"
-    credentials_file = PATH_MAIN_DIR + "/flash-realm-401106-a0bf29a37df7.json"
-
-    credentials = service_account.Credentials.from_service_account_file(
-        credentials_file, scopes=["https://www.googleapis.com/auth/bigquery"]
-    )
-
-    destination_table = f"{project_id}.{dataset_id}.{table_id}"
-
-    to_gbq(
-        df,
-        destination_table,
-        project_id=project_id,
-        if_exists="append",  # Choose whether to replace or append to the table
-        credentials=credentials,  # Specify the schema for the table
-    )
+    gbq_upload(data=df, table_id="h_index_quotes")
 
     return df
 
 
 @asset()
 def upload_quotes(get_symbols):
-    tickers = random.sample(list(get_symbols), 1000)
+    tickers = random.sample(list(get_symbols), 10)
     dfs = {}
 
     for symbol in tqdm.tqdm(
@@ -120,72 +125,28 @@ def upload_quotes(get_symbols):
             continue
 
     dfs = dfs.values()
-    box_score_advanced_df = pd.concat(dfs, axis=0).reset_index()
-    box_score_advanced_df["timestamp"] = pd.Timestamp.now()
-    box_score_advanced_df.columns = [
-        x.replace(" ", "_").lower() for x in box_score_advanced_df.columns
-    ]
-    df = box_score_advanced_df
-
-    project_id = "flash-realm-401106"
-    dataset_id = "valuationhub"
-    table_id = "h_quotes"
-    credentials_file = PATH_MAIN_DIR + "/flash-realm-401106-a0bf29a37df7.json"
-
-    credentials = service_account.Credentials.from_service_account_file(
-        credentials_file, scopes=["https://www.googleapis.com/auth/bigquery"]
-    )
-
-    destination_table = f"{project_id}.{dataset_id}.{table_id}"
-
-    to_gbq(
-        df,
-        destination_table,
-        project_id=project_id,
-        if_exists="append",  # Choose whether to replace or append to the table
-        credentials=credentials,  # Specify the schema for the table
-    )
-
-    print(f"DataFrame uploaded to {destination_table} in BigQuery.")
+    df = pd.concat(dfs, axis=0).reset_index()
+    df["timestamp"] = pd.Timestamp.now()
+    df.columns = [x.replace(" ", "_").lower() for x in df.columns]
+    df = df.infer_objects()
+    df["date"] = df["date"].astype(str)
+    gbq_upload(data=df, table_id="h_index_quotes")
     return df
 
 
 @asset(deps=[get_symbols])
 def upload_info():
-    project_id = "flash-realm-401106"
-    dataset_id = "valuationhub"
-    table_id = "h_info"
-    credentials_file = (
-        "/home/chris/code/affinitypropagation/flash-realm-401106-a0bf29a37df7.json"
-    )
-
     df = pd.read_csv(
         "/home/chris/code/affinitypropagation/data/info_merged_reduced.csv"
     )
-
     df["timestamp"] = pd.Timestamp.now()
-
-    credentials = service_account.Credentials.from_service_account_file(
-        credentials_file, scopes=["https://www.googleapis.com/auth/bigquery"]
-    )
-
-    destination_table = f"{project_id}.{dataset_id}.{table_id}"
-
-    to_gbq(
-        df,
-        destination_table,
-        project_id=project_id,
-        if_exists="replace",  # Choose whether to replace or append to the table
-        credentials=credentials,  # Specify the schema for the table
-    )
-
-    print(f"DataFrame uploaded to {destination_table} in BigQuery.")
+    gbq_upload(data=df, table_id="h_info")
     return df
 
 
 @asset()
 def upload_income_stmt(get_symbols):
-    tickers = random.sample(list(get_symbols), 1000)
+    tickers = random.sample(list(get_symbols), 10)
 
     dfs = {}
 
@@ -216,25 +177,6 @@ def upload_income_stmt(get_symbols):
     df.columns = [x.replace(" ", "_").lower() for x in df.columns]
     df = df.infer_objects()
 
-    project_id = "flash-realm-401106"
-    dataset_id = "valuationhub"
-    table_id = "h_income_stmt"
-    credentials_file = PATH_MAIN_DIR + "/flash-realm-401106-a0bf29a37df7.json"
-
-    credentials = service_account.Credentials.from_service_account_file(
-        credentials_file, scopes=["https://www.googleapis.com/auth/bigquery"]
-    )
-
-    destination_table = f"{project_id}.{dataset_id}.{table_id}"
-
-    to_gbq(
-        df,
-        destination_table,
-        project_id=project_id,
-        if_exists="append",
-        credentials=credentials,
-    )
-
-    print(f"DataFrame uploaded to {destination_table} in BigQuery.")
+    gbq_upload(data=df, table_id="h_income_stmt")
 
     return df

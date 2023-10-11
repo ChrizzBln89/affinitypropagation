@@ -5,13 +5,15 @@ from class_gbq import info_data, historical_data
 
 class Peer_Group:
     def __init__(self):
-        # Connection to database
+        # Data objects for calculations
         self.info_data = info_data()
-        # Filtered data based on peer group selection
         self.peer_info_data = pd.DataFrame()
         self.peer_historical_data = pd.DataFrame()
         self.peer_companies = []
-        # Attributes of peer group
+        self.index_historical_data = pd.DataFrame()
+        self.index = "^GDAXI"
+
+        # parameter beta calc
         self.time_interval = 0
         self.fill_method = "ffill"
         self.index = "test_index"
