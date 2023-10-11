@@ -1,6 +1,6 @@
 import numpy as np
 import pytest
-from class_gbq import historical_data, info_data
+from class_gbq import historical_peer_quotes, historical_index_quotes, info_data
 from class_peer_group import Peer_Group
 import pandas as pd
 from valuationhub.valuationhub.assets import *
@@ -95,3 +95,12 @@ def test_upload_index_quotes():
     assert "^GDAXI" in df["symbol"].values
     assert "timestamp" in df.columns
     assert "open" in df.columns
+
+
+class test_class:
+    def test_download_ticker_quotes():
+        ticker_quotes = historical_index_quotes("^GDAXI")
+        assert isinstance(ticker_quotes, pd.DataFrame)
+        assert "open" in ticker_quotes.columns
+        assert "symbol" in ticker_quotes.columns
+        assert "^GDAXI" in list(ticker_quotes["symbol"].values)

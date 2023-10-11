@@ -1,6 +1,6 @@
 import pandas as pd
 from modules.path import path_data
-from class_gbq import info_data, historical_data
+from class_gbq import historical_index_quotes, historical_peer_quotes, info_data
 
 
 class Peer_Group:
@@ -39,11 +39,14 @@ class Peer_Group:
 
     def stock_data(self) -> pd.DataFrame:
         """Downloads peer group stock data from the database for beta calculation."""
-        self.peer_historical_data = historical_data(self.peer_companies).infer_objects()
+        self.peer_historical_data = historical_peer_quotes(
+            self.peer_companies
+        ).infer_objects()
         return self.peer_historical_data
 
     def index_data(self) -> pd.DataFrame:
-        pass
+        self.index_data = historical_index_quotes(self.index)
+        return self.index_data
 
     def beta_calc(self) -> pd.DataFrame:
         df = self.peer_historical_data.sort_values("date", ascending=True)[
