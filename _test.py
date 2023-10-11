@@ -3,12 +3,7 @@ import pytest
 from class_gbq import historical_data
 from class_peer_group import Peer_Group
 import pandas as pd
-from dagster.valuationhub.assets import (
-    get_symbols,
-    upload_income_stmt,
-    upload_info,
-    upload_quotes,
-)
+from valuationhub.valuationhub.assets import *
 
 
 # Define custom markers directly using the @pytest.mark decorator
@@ -47,7 +42,10 @@ def test_beta_calc():
     pg = Peer_Group()
     pg.add_company("AAPL")
     pg.stock_data()
-    assert type(pg.beta_calc()) == list
+    df = pg.beta_calc()
+    assert type(df) == pd.DataFrame
+    assert "beta" in df.columns
+    assert "AAPL" in df["symbol"].values
 
 
 @pytest.mark.gbq
@@ -60,7 +58,7 @@ def test_download_gbq():
 
 @pytest.mark.gbq
 def test_upload_quotes():
-    quotes = upload_quotes(get_symbols()[0])
+    quotes = upload_quotes(get_symbols())
     assert isinstance(quotes, pd.DataFrame)
 
 
@@ -72,7 +70,7 @@ def test_upload_info():
 
 @pytest.mark.gbq
 def test_upload_income_stmt():
-    income_stmt = upload_income_stmt(get_symbols()[0])
+    income_stmt = upload_income_stmt(get_symbols())
     assert isinstance(income_stmt, pd.DataFrame)
 
 

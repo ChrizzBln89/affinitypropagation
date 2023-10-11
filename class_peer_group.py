@@ -37,8 +37,10 @@ class Peer_Group:
         return self.peer_historical_data
 
     def beta_calc(self) -> pd.DataFrame():
-        df = self.peer_historical_data.pct_change()
-        list_results = []
-        for col in df.columns:
-            list_results.append(df[col].rolling().corr(df[col]))
-        return list_results
+        df = self.peer_historical_data.sort_values("date", ascending=True)[
+            ["symbol", "date", "open"]
+        ]
+        df["return"] = df["open"].pct_change()
+        df["beta"] = df["return"].rolling(window=3).corr(df["return"])
+        df = df.sort_values("date", ascending=False)
+        return df
