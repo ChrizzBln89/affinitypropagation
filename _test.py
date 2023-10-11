@@ -3,7 +3,7 @@ import pytest
 from class_gbq import historical_data
 from class_peer_group import Peer_Group
 import pandas as pd
-from valuationhub.valuationhub.assets import (
+from dagster.valuationhub.assets import (
     get_symbols,
     upload_income_stmt,
     upload_info,

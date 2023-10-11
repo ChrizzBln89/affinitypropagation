@@ -41,11 +41,4 @@ class Peer_Group:
         list_results = []
         for col in df.columns:
             list_results.append(df[col].rolling().corr(df[col]))
-        return print(self.peer_historical_data)
-
-
-if __name__ == "__main__":
-    pg = Peer_Group()
-    pg.add_company("AAPL")
-    pg.stock_data()
-    pg.beta_calc()
+        return list_results

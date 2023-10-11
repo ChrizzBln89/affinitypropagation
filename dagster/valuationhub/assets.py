@@ -1,6 +1,7 @@
 import yfinance as yf
 import tqdm
 import pandas as pd
+import random
 
 from pathlib import Path
 from google.oauth2 import service_account
@@ -35,7 +36,7 @@ def get_symbols():
 
 @asset()
 def upload_quotes(get_symbols):
-    tickers = get_symbols
+    tickers = random.sample(list(get_symbols), 1000)
     dfs = {}
 
     for symbol in tqdm.tqdm(
@@ -46,7 +47,7 @@ def upload_quotes(get_symbols):
     ):
         try:
             ticker = yf.Ticker(symbol)
-            info_dict = ticker.history(period="1mo")
+            info_dict = ticker.history(period="1d")
             df = pd.DataFrame.from_dict(info_dict, orient="columns")
             df["symbol"] = str(ticker).strip("yfinance.Ticker object <").strip(">")
             dfs[ticker] = df
@@ -119,7 +120,7 @@ def upload_info():
 
 @asset()
 def upload_income_stmt(get_symbols):
-    tickers = get_symbols
+    tickers = random.sample(list(get_symbols), 1000)
 
     dfs = {}
 
