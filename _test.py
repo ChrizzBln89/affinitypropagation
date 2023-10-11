@@ -71,10 +71,26 @@ def test_upload_info():
 @pytest.mark.gbq
 def test_upload_income_stmt():
     income_stmt = upload_income_stmt(get_symbols())
-    assert isinstance(income_stmt, pd.DataFrame)
+    assert 'isinstance(income_stmt, pd.DataFrame)
 
 
 @pytest.mark.gbq
-def info_data():
+def test_info_data():
     info = info_data()
     assert isinstance(info, pd.DataFrame)
+
+@pytest.mark.gbq
+def test_download_index_ticker():
+    ticker = download_index_ticker()
+    assert isinstance(ticker, list)
+    assert "^GDAXI" in ticker
+
+upload_index_quotes
+@pytest.mark.gbq
+def test_upload_index_quotes():
+    ticker = download_index_ticker()
+    df = upload_index_quotes(ticker)
+    assert isinstance(ticker, pd.DataFrame)
+    assert "^GDAXI" in df['symbol'].values
+    assert 'timestamp' in df.columns
+    assert 'open' in df.columns
