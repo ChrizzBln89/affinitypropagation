@@ -7,11 +7,11 @@ class Peer_Group:
     def __init__(self):
         # Data objects for calculations
         self.info_data = info_data()
+        self.peer_companies = []
         self.peer_info_data = pd.DataFrame()
         self.peer_historical_data = pd.DataFrame()
-        self.peer_companies = []
         self.index_historical_data = pd.DataFrame()
-        self.index = "^GDAXI"
+        self.index = None
 
         # parameter beta calc
         self.time_interval = 0
@@ -26,19 +26,26 @@ class Peer_Group:
         self.peer_companies = list(set(self.peer_companies))
         return self.peer_companies
 
-    def company_data(self) -> pd.DataFrame():
+    def add_index(self, index: str) -> str:
+        self.index = index
+        return self.index
+
+    def company_data(self) -> pd.DataFrame:
         """Downloads general peer group information from the database."""
         self.peer_info_data = self.info_data[
             self.info_data["symbol"].isin(self.peer_companies)
         ]
         return self.peer_info_data
 
-    def stock_data(self) -> pd.DataFrame():
+    def stock_data(self) -> pd.DataFrame:
         """Downloads peer group stock data from the database for beta calculation."""
         self.peer_historical_data = historical_data(self.peer_companies).infer_objects()
         return self.peer_historical_data
 
-    def beta_calc(self) -> pd.DataFrame():
+    def index_data(self) -> pd.DataFrame:
+        pass
+
+    def beta_calc(self) -> pd.DataFrame:
         df = self.peer_historical_data.sort_values("date", ascending=True)[
             ["symbol", "date", "open"]
         ]

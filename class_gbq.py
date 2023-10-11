@@ -53,7 +53,3 @@ def historical_data(tickers: list) -> pd.DataFrame:
     query_job = client.query(query, job_config=job_config)
     df = query_job.to_dataframe()
     return df
-
-
-if __name__ == "__main__":
-    historical_data(tickers)
