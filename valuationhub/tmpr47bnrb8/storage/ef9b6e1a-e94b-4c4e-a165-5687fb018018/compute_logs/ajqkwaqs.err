@@ -1,0 +1,7 @@
+[32m2023-10-12 17:21:27 +0200[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - ef9b6e1a-e94b-4c4e-a165-5687fb018018 - 2087535 - LOGS_CAPTURED - Started capturing logs in process (pid: 2087535).
+[32m2023-10-12 17:21:27 +0200[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - ef9b6e1a-e94b-4c4e-a165-5687fb018018 - 2087535 - get_symbols - STEP_START - Started execution of step "get_symbols".
+[32m2023-10-12 17:21:30 +0200[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - ef9b6e1a-e94b-4c4e-a165-5687fb018018 - 2087535 - get_symbols - STEP_OUTPUT - Yielded output "result" of type "Any". (Type check passed).
+[32m2023-10-12 17:21:30 +0200[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - ef9b6e1a-e94b-4c4e-a165-5687fb018018 - get_symbols - Writing file at: /home/chris/code/affinitypropagation/valuationhub/tmpr47bnrb8/storage/get_symbols using PickledObjectFilesystemIOManager...
+[32m2023-10-12 17:21:30 +0200[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - ef9b6e1a-e94b-4c4e-a165-5687fb018018 - 2087535 - get_symbols - ASSET_MATERIALIZATION - Materialized value get_symbols.
+[32m2023-10-12 17:21:30 +0200[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - ef9b6e1a-e94b-4c4e-a165-5687fb018018 - 2087535 - get_symbols - HANDLED_OUTPUT - Handled output "result" using IO manager "io_manager"
+[32m2023-10-12 17:21:30 +0200[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - ef9b6e1a-e94b-4c4e-a165-5687fb018018 - 2087535 - get_symbols - STEP_SUCCESS - Finished execution of step "get_symbols" in 2.86s.

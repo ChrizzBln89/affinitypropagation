@@ -19,7 +19,7 @@ def pg_with_aapl():
 
 
 # Define custom markers directly using the @pytest.mark decorator
-@pytest.mark.peer_group
+@pytest.mark.fast
 def test_peer_group_init(pg):
     assert pg.fill_method == "ffill"
     assert pg.index == {}
@@ -33,14 +33,14 @@ def test_peer_group_init(pg):
 # Continue with the rest of your tests using the 'pg' and 'pg_with_aapl' fixtures
 
 
-@pytest.mark.peer_group
+@pytest.mark.fast
 def test_peer_group_add_company(pg):
     pg.add_company("AAPL")
     assert "AAPL" in pg.peer_companies
     assert isinstance(pg.add_company("AAPL"), list)
 
 
-@pytest.mark.peer_group
+@pytest.mark.fast
 def test_peer_group_stock_data(pg_with_aapl):
     pg = pg_with_aapl
     df = pg.stock_data()
@@ -49,7 +49,7 @@ def test_peer_group_stock_data(pg_with_aapl):
     assert isinstance(pg.peer_historical_data, pd.DataFrame)
 
 
-@pytest.mark.gbq
+@pytest.mark.fast
 def test_download_gbq():
     symbols = get_symbols()
     assert type(symbols) == np.ndarray
@@ -57,38 +57,38 @@ def test_download_gbq():
     assert len(list(symbols)) > 10000
 
 
-@pytest.mark.gbq
+@pytest.mark.slow
 def test_upload_quotes():
     quotes = upload_quotes(get_symbols())
     assert isinstance(quotes, pd.DataFrame)
 
 
-@pytest.mark.gbq
+@pytest.mark.slow
 def test_upload_info():
     info = upload_info()
     assert isinstance(info, pd.DataFrame)
 
 
-@pytest.mark.gbq
+@pytest.mark.slow
 def test_upload_income_stmt():
     income_stmt = upload_income_stmt(get_symbols())
     assert isinstance(income_stmt, pd.DataFrame)
 
 
-@pytest.mark.gbq
+@pytest.mark.fast
 def test_info_data():
     info = info_data()
     assert isinstance(info, pd.DataFrame)
 
 
-@pytest.mark.gbq
+@pytest.mark.fast
 def test_download_index_ticker():
     ticker = download_index_ticker()
     assert isinstance(ticker, list)
     assert "^GDAXI" in ticker
 
 
-@pytest.mark.gbq
+@pytest.mark.slow
 def test_upload_index_quotes():
     ticker = download_index_ticker()
     df = upload_index_quotes(ticker)
@@ -98,7 +98,7 @@ def test_upload_index_quotes():
     assert "open" in df.columns
 
 
-@pytest.mark.gbq
+@pytest.mark.fast
 def test_download_ticker_quotes():
     ticker_quotes = historical_index_quotes("^GDAXI")
     assert isinstance(ticker_quotes, pd.DataFrame)
