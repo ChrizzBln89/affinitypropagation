@@ -38,6 +38,28 @@ def test_peer_group_stock_data():
 
 
 @pytest.mark.peer_group
+def test_add_index():
+    pg = Peer_Group()
+    pg.add_company("AAPL")
+    pg.add_index(index="^GDAXI", company="AAPL")
+    assert "^GDAXI" in pg.index.keys
+    assert "AAPL" in pg.index.values
+    assert isinstance(pg.index, dict)
+
+
+@pytest.mark.peer_group
+def test_index_data():
+    pg = Peer_Group()
+    pg.add_company("AAPL")
+    pg.add_index(index="^GDAXI", company="AAPL")
+    index_dict = pg.index_data()
+    assert "^GDAXI" in index_dict.keys
+    assert "volume" in index_dict["^GDAXI"].columns
+    assert isinstance(index_dict, dict)
+    assert isinstance(index_dict["^GDAXI"], pd.DataFrame)
+
+
+@pytest.mark.peer_group
 def test_beta_calc():
     pg = Peer_Group()
     pg.add_company("AAPL")
@@ -97,10 +119,10 @@ def test_upload_index_quotes():
     assert "open" in df.columns
 
 
-class test_class:
-    def test_download_ticker_quotes():
-        ticker_quotes = historical_index_quotes("^GDAXI")
-        assert isinstance(ticker_quotes, pd.DataFrame)
-        assert "open" in ticker_quotes.columns
-        assert "symbol" in ticker_quotes.columns
-        assert "^GDAXI" in list(ticker_quotes["symbol"].values)
+@pytest.mark.gbq
+def test_download_ticker_quotes():
+    ticker_quotes = historical_index_quotes("^GDAXI")
+    assert isinstance(ticker_quotes, pd.DataFrame)
+    assert "open" in ticker_quotes.columns
+    assert "symbol" in ticker_quotes.columns
+    assert "^GDAXI" in list(ticker_quotes["symbol"].values)

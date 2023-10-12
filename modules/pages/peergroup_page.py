@@ -9,21 +9,21 @@ from modules.graph import create_3d_scatterplot
 def peergroup_page():
     # Load Data
     df = peer_group_user.info_data
-    df = df[df["Currency"].isin(["EUR"])]
-    sector_selection = list(df["Sector"].unique())
-    industry_selection = list(df["Industry"].unique())
+    df = df[df["currency"].isin(["EUR"])]
+    sector_selection = list(df["sector"].unique())
+    industry_selection = list(df["industry"].unique())
 
     # Marketcap Bins
     num = 10
     labels = np.linspace(start=1, stop=num, num=num)
-    df["marketCap_bins"] = pd.qcut(df["marketCap"], q=num, labels=labels)
+    df["marketCap_bins"] = pd.qcut(df["marketcap"], q=num, labels=labels)
 
     feature_select = st.multiselect(
-        "Features", df.columns, ["revenueGrowth", "profitMargins", "returnOnEquity"]
+        "Features", df.columns, ["revenuegrowth", "profitmargins", "returnonequity"]
     )
     # sector_select = st.multiselect("Sector", sector_selection, ["Technology"])
     industry_select = st.multiselect(
-        "Industry", industry_selection, ["Software—Application"]
+        "industry", industry_selection, ["Software—Application"]
     )
     st.multiselect("Algorithm", ["1", "2", "3"])
 
@@ -35,7 +35,7 @@ def peergroup_page():
     fig = create_3d_scatterplot(df=df, X=X)
 
     # df = df[(df["sector"].isin(sector_select)) | (df["industry"].isin(industry_select))]
-    df = df[df["Industry"].isin(industry_select)]
+    df = df[df["industry"].isin(industry_select)]
 
     st.plotly_chart(fig, use_container_width=True)
 

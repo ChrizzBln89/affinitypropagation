@@ -1,3 +1,5 @@
+import datetime
+from click import DateTime
 import pandas as pd
 from modules.path import path_data
 from class_gbq import historical_index_quotes, historical_peer_quotes, info_data
@@ -10,15 +12,14 @@ class Peer_Group:
         self.peer_companies = []
         self.peer_info_data = pd.DataFrame()
         self.peer_historical_data = pd.DataFrame()
-        self.index_historical_data = pd.DataFrame()
-        self.index = None
+        self.index_historical_data = {}
+        self.index = {}
 
         # parameter beta calc
         self.time_interval = 0
         self.fill_method = "ffill"
-        self.index = "test_index"
-        self.peer_start_date = None
-        self.peer_end_date = None
+        self.peer_start_date = datetime.now()
+        self.peer_end_date = datetime.now() - datetime.timedelta(days=365 * 10)
 
     def add_company(self, ticker: str) -> list:
         """Adds companies to the peer group selection and is later used for data filtering form database."""
@@ -26,8 +27,8 @@ class Peer_Group:
         self.peer_companies = list(set(self.peer_companies))
         return self.peer_companies
 
-    def add_index(self, index: str) -> str:
-        self.index = index
+    def add_index(self, company: str, index: str) -> dict:
+        self.index[company] = index
         return self.index
 
     def company_data(self) -> pd.DataFrame:
@@ -45,8 +46,9 @@ class Peer_Group:
         return self.peer_historical_data
 
     def index_data(self) -> pd.DataFrame:
-        self.index_data = historical_index_quotes(self.index)
-        return self.index_data
+        for key in self.index.keys:
+            self.index_historical_data[key] = historical_index_quotes(key)
+        return self.index_historical_data
 
     def beta_calc(self) -> pd.DataFrame:
         df = self.peer_historical_data.sort_values("date", ascending=True)[

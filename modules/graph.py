@@ -19,7 +19,7 @@ def create_3d_scatterplot(df: pd.DataFrame(), X: pd.DataFrame()):
         z=2,
         color=embedding_3d.marketCap_bins,
         opacity=0.6,
-        hover_data=embedding_3d[["marketCap", "revenueGrowth", "operatingMargins"]],
+        hover_data=embedding_3d[["marketcap", "revenuegrowth", "operatingmargins"]],
     )
     fig.update_traces(marker_size=8)
 
