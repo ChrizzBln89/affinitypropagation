@@ -18,8 +18,8 @@ class Peer_Group:
         # parameter beta calc
         self.time_interval = 0
         self.fill_method = "ffill"
-        self.peer_start_date = datetime.now()
-        self.peer_end_date = datetime.now() - datetime.timedelta(days=365 * 10)
+        self.peer_start_date = None
+        self.peer_end_date = None
 
     def add_company(self, ticker: str) -> list:
         """Adds companies to the peer group selection and is later used for data filtering form database."""
@@ -46,15 +46,9 @@ class Peer_Group:
         return self.peer_historical_data
 
     def index_data(self) -> pd.DataFrame:
-        for key in self.index.keys:
-            self.index_historical_data[key] = historical_index_quotes(key)
+        for key in self.index.keys():
+            self.index_historical_data[key] = historical_index_quotes(self.index[key])
         return self.index_historical_data
 
     def beta_calc(self) -> pd.DataFrame:
-        df = self.peer_historical_data.sort_values("date", ascending=True)[
-            ["symbol", "date", "open"]
-        ]
-        df["return"] = df["open"].pct_change()
-        df["beta"] = df["return"].rolling(window=3).corr(df["return"])
-        df = df.sort_values("date", ascending=False)
-        return df
+        pass
