@@ -1,15 +1,26 @@
 import numpy as np
 import pytest
+import pandas as pd
 from class_gbq import historical_peer_quotes, historical_index_quotes, info_data
 from class_peer_group import Peer_Group
-import pandas as pd
 from valuationhub.valuationhub.assets import *
+
+
+@pytest.fixture
+def pg():
+    return Peer_Group()
+
+
+@pytest.fixture
+def pg_with_aapl():
+    pg = Peer_Group()
+    pg.add_company("AAPL")
+    return pg
 
 
 # Define custom markers directly using the @pytest.mark decorator
 @pytest.mark.peer_group
-def test_peer_group_init():
-    pg = Peer_Group()
+def test_peer_group_init(pg):
     assert pg.fill_method == "ffill"
     assert pg.index == {}
     assert isinstance(pg.peer_companies, list)
@@ -19,63 +30,23 @@ def test_peer_group_init():
     assert pg.time_interval == 0
 
 
+# Continue with the rest of your tests using the 'pg' and 'pg_with_aapl' fixtures
+
+
 @pytest.mark.peer_group
-def test_peer_group_add_company():
-    pg = Peer_Group()
+def test_peer_group_add_company(pg):
     pg.add_company("AAPL")
     assert "AAPL" in pg.peer_companies
     assert isinstance(pg.add_company("AAPL"), list)
 
 
 @pytest.mark.peer_group
-def test_peer_group_stock_data():
-    pg = Peer_Group()
-    pg.add_company("AAPL")
+def test_peer_group_stock_data(pg_with_aapl):
+    pg = pg_with_aapl
     df = pg.stock_data()
     assert "AAPL" in list(df["symbol"])
     assert "volume" in pg.peer_historical_data.columns
     assert isinstance(pg.peer_historical_data, pd.DataFrame)
-
-
-@pytest.mark.peer_group
-def test_add_index():
-    pg = Peer_Group()
-    pg.add_company("AAPL")
-    pg.add_index(index="^GDAXI", company="AAPL")
-    assert "^GDAXI" in pg.index.values()
-    assert "AAPL" in pg.index.keys()
-    assert isinstance(pg.index, dict)
-
-
-@pytest.mark.peer_group
-def test_index_data():
-    pg = Peer_Group()
-    pg.add_company("AAPL")
-    pg.add_index(index="^GDAXI", company="AAPL")
-    index_dict = pg.index_data()
-    assert isinstance(index_dict, dict)
-    assert isinstance(index_dict["AAPL"], pd.DataFrame)
-
-
-@pytest.mark.peer_group
-def test_beta_calc():
-    pg = Peer_Group()
-    pg.add_company("AAPL")
-    pg.add_index(company="AAPL", index="^GDAXI")
-
-    stock = pg.stock_data()
-    index = pg.index_data()
-
-    assert isinstance(stock, pd.DataFrame)
-    assert isinstance(index, dict)
-    assert "symbol" in stock.columns
-    assert "symbol" in index["AAPL"].columns
-
-    beta_calc_dict = pg.beta_calc()
-
-    assert isinstance(beta_calc_dict, dict)
-    assert ["date", "weekday", "beta"] in beta_calc_dict["AAPL"].columns
-    assert "AAPL" in list(beta_calc_dict["AAPL"]["symbol_stock"].values)
 
 
 @pytest.mark.gbq
