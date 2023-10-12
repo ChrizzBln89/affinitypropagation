@@ -3,18 +3,16 @@ import streamlit as st
 from class_peer_group import Peer_Group
 import plotly.express as px
 from datetime import datetime
+from modules.pages.peer_group_user import peer_group_user
 
 
 def beta_page():
-    peer_test = Peer_Group()
-    peer_test.add_company("AAPL")
-    st.write(peer_test.peer_companies)
+    df = peer_group_user.beta_calc()
 
-    # Sample data for the scatterplot
-    data = {"X": [1, 2, 3, 4, 5], "Y": [10, 11, 12, 13, 14]}
     st.title("Streamlit Scatterplot Example")
-    scatterplot = px.scatter(data, x="X", y="Y", title="Scatterplot")
+    scatterplot = px.scatter(df["NEDSE.AS"], x="return_stock", y="return_index")
     st.plotly_chart(scatterplot)
+    st.write(df)
     start_time = st.slider(
         "When do you start?",
         value=datetime(2020, 1, 1, 9, 30),

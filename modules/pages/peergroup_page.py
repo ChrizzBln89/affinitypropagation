@@ -51,7 +51,7 @@ def peergroup_page():
         hide_index=True,
     )
 
-    for company in list(df.loc[df["Peer Group"] == True, "Symbol"]):
+    for company in list(df.loc[df["peer_group"] == True, "symbol"]):
         peer_group_user.add_company(company)
 
 

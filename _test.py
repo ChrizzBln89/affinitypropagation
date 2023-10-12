@@ -59,7 +59,23 @@ def test_index_data():
 
 @pytest.mark.peer_group
 def test_beta_calc():
-    pass
+    pg = Peer_Group()
+    pg.add_company("AAPL")
+    pg.add_index(company="AAPL", index="^GDAXI")
+
+    stock = pg.stock_data()
+    index = pg.index_data()
+
+    assert isinstance(stock, pd.DataFrame)
+    assert isinstance(index, dict)
+    assert "symbol" in stock.columns
+    assert "symbol" in index["AAPL"].columns
+
+    beta_calc_dict = pg.beta_calc()
+
+    assert isinstance(beta_calc_dict, dict)
+    assert ["date", "weekday", "beta"] in beta_calc_dict["AAPL"].columns
+    assert "AAPL" in list(beta_calc_dict["AAPL"]["symbol_stock"].values)
 
 
 @pytest.mark.gbq

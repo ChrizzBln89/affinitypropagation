@@ -7,13 +7,13 @@ def beta_calc() -> pd.DataFrame:
     pg = Peer_Group()
 
     pg.add_company("AAPL")
-    pg.add_index("^GDAXI")
+    pg.add_index(company="AAPL", index="^GDAXI")
 
     stock = pg.stock_data()
     index = pg.index_data()
 
     stock = stock[["symbol", "date", "close"]]
-    index = index[["symbol", "date", "close"]]
+    index = index["AAPL"][["symbol", "date", "close"]]
 
     stock["date"] = stock["date"].astype(str)
     index["date"] = index["date"].astype(str)
@@ -43,7 +43,7 @@ def beta_calc() -> pd.DataFrame:
     beta_calc["return_index"] = beta_calc["close_index"].pct_change()
 
     beta_calc["beta"] = (
-        beta_calc["return_stock"].rolling(window=5).corr(beta_calc["return_index"])
+        beta_calc["return_stock"].rolling(window=1).corr(beta_calc["return_index"])
     )
 
     beta_calc = beta_calc.sort_values(by="date", ascending=False)
