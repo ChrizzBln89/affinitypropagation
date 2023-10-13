@@ -1,8 +1,0 @@
-[32m2023-10-12 17:02:25 +0200[0m - dagster - [34mDEBUG[0m - upload_job - 87c142ac-b1a0-480e-858e-20f375b5b30f - 2040545 - LOGS_CAPTURED - Started capturing logs in process (pid: 2040545).
-[32m2023-10-12 17:02:25 +0200[0m - dagster - [34mDEBUG[0m - upload_job - 87c142ac-b1a0-480e-858e-20f375b5b30f - 2040545 - upload_info - STEP_START - Started execution of step "upload_info".
-  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00, 28339.89it/s]
-[32m2023-10-12 17:02:56 +0200[0m - dagster - [34mDEBUG[0m - upload_job - 87c142ac-b1a0-480e-858e-20f375b5b30f - 2040545 - upload_info - STEP_OUTPUT - Yielded output "result" of type "Any". (Type check passed).
-[32m2023-10-12 17:02:56 +0200[0m - dagster - [34mDEBUG[0m - upload_job - 87c142ac-b1a0-480e-858e-20f375b5b30f - upload_info - Writing file at: /home/chris/code/affinitypropagation/valuationhub/tmpr47bnrb8/storage/upload_info using PickledObjectFilesystemIOManager...
-[32m2023-10-12 17:02:56 +0200[0m - dagster - [34mDEBUG[0m - upload_job - 87c142ac-b1a0-480e-858e-20f375b5b30f - 2040545 - upload_info - ASSET_MATERIALIZATION - Materialized value upload_info.
-[32m2023-10-12 17:02:56 +0200[0m - dagster - [34mDEBUG[0m - upload_job - 87c142ac-b1a0-480e-858e-20f375b5b30f - 2040545 - upload_info - HANDLED_OUTPUT - Handled output "result" using IO manager "io_manager"
-[32m2023-10-12 17:02:56 +0200[0m - dagster - [34mDEBUG[0m - upload_job - 87c142ac-b1a0-480e-858e-20f375b5b30f - 2040545 - upload_info - STEP_SUCCESS - Finished execution of step "upload_info" in 31.06s.
