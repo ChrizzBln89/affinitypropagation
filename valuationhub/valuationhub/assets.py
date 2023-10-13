@@ -130,7 +130,7 @@ def upload_quotes(get_symbols):
     df.columns = [x.replace(" ", "_").lower() for x in df.columns]
     df = df.infer_objects()
     df["date"] = df["date"].astype(str)
-    gbq_upload(data=df, table_id="h_index_quotes")
+    gbq_upload(data=df, table_id="h_quotes")
     return df
 
 
