@@ -1,7 +1,6 @@
 import datetime
 from click import DateTime
 import pandas as pd
-from modules.path import path_data
 from class_gbq import historical_index_quotes, historical_peer_quotes, info_data
 
 
