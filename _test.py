@@ -18,19 +18,15 @@ def pg_with_aapl():
     return pg
 
 
-# Define custom markers directly using the @pytest.mark decorator
 @pytest.mark.fast
 def test_peer_group_init(pg):
     assert pg.fill_method == "ffill"
     assert pg.index == {}
+    assert pg.time_interval == 0
     assert isinstance(pg.peer_companies, list)
     assert isinstance(pg.peer_historical_data, pd.DataFrame)
     assert isinstance(pg.info_data, pd.DataFrame)
     assert isinstance(pg.peer_info_data, pd.DataFrame)
-    assert pg.time_interval == 0
-
-
-# Continue with the rest of your tests using the 'pg' and 'pg_with_aapl' fixtures
 
 
 @pytest.mark.fast
