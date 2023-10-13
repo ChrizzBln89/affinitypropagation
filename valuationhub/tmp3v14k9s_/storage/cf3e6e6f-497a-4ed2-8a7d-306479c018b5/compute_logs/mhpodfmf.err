@@ -1,0 +1,9 @@
+[32m2023-10-13 15:15:26 +0200[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - cf3e6e6f-497a-4ed2-8a7d-306479c018b5 - 3325480 - LOGS_CAPTURED - Started capturing logs in process (pid: 3325480).
+[32m2023-10-13 15:15:26 +0200[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - cf3e6e6f-497a-4ed2-8a7d-306479c018b5 - 3325480 - download_index_ticker - STEP_START - Started execution of step "download_index_ticker".
+/home/chris/code/affinitypropagation/valuationhub/valuationhub/assets.py:69: FutureWarning: Passing literal html to 'read_html' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
+  df = pd.read_html(str(table))[0]
+[32m2023-10-13 15:15:27 +0200[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - cf3e6e6f-497a-4ed2-8a7d-306479c018b5 - 3325480 - download_index_ticker - STEP_OUTPUT - Yielded output "result" of type "Any". (Type check passed).
+[32m2023-10-13 15:15:27 +0200[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - cf3e6e6f-497a-4ed2-8a7d-306479c018b5 - download_index_ticker - Writing file at: /home/chris/code/affinitypropagation/valuationhub/tmp3v14k9s_/storage/download_index_ticker using PickledObjectFilesystemIOManager...
+[32m2023-10-13 15:15:28 +0200[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - cf3e6e6f-497a-4ed2-8a7d-306479c018b5 - 3325480 - download_index_ticker - ASSET_MATERIALIZATION - Materialized value download_index_ticker.
+[32m2023-10-13 15:15:28 +0200[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - cf3e6e6f-497a-4ed2-8a7d-306479c018b5 - 3325480 - download_index_ticker - HANDLED_OUTPUT - Handled output "result" using IO manager "io_manager"
+[32m2023-10-13 15:15:28 +0200[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - cf3e6e6f-497a-4ed2-8a7d-306479c018b5 - 3325480 - download_index_ticker - STEP_SUCCESS - Finished execution of step "download_index_ticker" in 1.95s.
