@@ -85,7 +85,7 @@ def upload_index_quotes(download_index_ticker):
     ):
         try:
             ticker = yf.Ticker(symbol)
-            info_dict = ticker.history(period="max")
+            info_dict = ticker.history(period="1mo")
             df = pd.DataFrame.from_dict(info_dict, orient="columns")
             df["symbol"] = symbol
             dfs[ticker] = df
@@ -106,7 +106,7 @@ def upload_index_quotes(download_index_ticker):
 
 @asset()
 def upload_quotes(get_symbols):
-    tickers = random.sample(list(get_symbols), 10)
+    tickers = random.sample(list(get_symbols), 1000)
     dfs = {}
 
     for symbol in tqdm.tqdm(
@@ -117,7 +117,7 @@ def upload_quotes(get_symbols):
     ):
         try:
             ticker = yf.Ticker(symbol)
-            info_dict = ticker.history(period="1d")
+            info_dict = ticker.history(period="max")
             df = pd.DataFrame.from_dict(info_dict, orient="columns")
             df["symbol"] = str(ticker).strip("yfinance.Ticker object <").strip(">")
             dfs[ticker] = df
@@ -146,7 +146,7 @@ def upload_info():
 
 @asset()
 def upload_income_stmt(get_symbols):
-    tickers = random.sample(list(get_symbols), 10)
+    tickers = random.sample(list(get_symbols), 1000)
 
     dfs = {}
 
