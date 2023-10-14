@@ -14,7 +14,7 @@ upload_job = define_asset_job("upload_job", selection=AssetSelection.all())
 asset_job = define_asset_job(name="asset_job", selection="get_symbols")
 
 
-@sensor(job=asset_job, minimum_interval_seconds=60 * 10)
+@sensor(job=upload_job, minimum_interval_seconds=60 * 10)
 def materializes_asset_sensor():
     yield RunRequest()
 
