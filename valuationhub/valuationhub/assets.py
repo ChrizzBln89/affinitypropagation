@@ -106,7 +106,7 @@ def upload_index_quotes(download_index_ticker):
 
 @asset()
 def upload_quotes(get_symbols):
-    tickers = random.sample(list(get_symbols), 1000)
+    tickers = random.sample(list(get_symbols), 100)
     dfs = {}
 
     for symbol in tqdm.tqdm(
@@ -129,7 +129,6 @@ def upload_quotes(get_symbols):
     df["timestamp"] = pd.Timestamp.now()
     df.columns = [x.replace(" ", "_").lower() for x in df.columns]
     df = df.infer_objects()
-    df["date"] = df["date"].astype(str)
     gbq_upload(data=df, table_id="h_quotes")
     return df
 
