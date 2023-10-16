@@ -54,7 +54,7 @@ def get_symbols():
     FROM flash-realm-401106.valuationhub.h_info
     """
     df = client.query(query).to_dataframe()
-    tickers = df["symbol"].values
+    tickers = list(df["symbol"])
     return tickers
 
 

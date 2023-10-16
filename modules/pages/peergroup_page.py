@@ -19,40 +19,46 @@ def peergroup_page():
     df["marketCap_bins"] = pd.qcut(df["marketcap"], q=num, labels=labels)
 
     feature_select = st.multiselect(
-        "Features", df.columns, ["revenuegrowth", "profitmargins", "returnonequity"]
+        "Benchmark Features:",
+        df.columns,
+        ["revenuegrowth", "profitmargins", "returnonequity"],
     )
+
+    with st.expander("Filter for selected benchmark features:"):
+        for feature in feature_select:
+            values = st.slider(
+                f"Select a range of values for {feature}", 0.0, 100.0, (25.0, 75.0)
+            )
+            st.write("Values:", values)
+
     # sector_select = st.multiselect("Sector", sector_selection, ["Technology"])
     industry_select = st.multiselect(
         "industry", industry_selection, ["Software—Application"]
     )
-    st.multiselect("Algorithm", ["1", "2", "3"])
+
+    with st.expander("Additional Filters:"):
+        values = st.slider("Select a range of values", 0.0, 100.0, (25.0, 75.0))
+        st.write("Values:", values)
+
+    # st.multiselect("Algorithm", ["1", "2", "3"])
 
     # peer_group_user.add_company()
 
     # Filter Data for TSNE
     X = df[feature_select].dropna(axis=1)
-    X = RobustScaler().fit_transform(X)
-    fig = create_3d_scatterplot(df=df, X=X)
+    # X = RobustScaler().fit_transform(X)
+    # fig = create_3d_scatterplot(df=df, X=X)
 
     # df = df[(df["sector"].isin(sector_select)) | (df["industry"].isin(industry_select))]
     df = df[df["industry"].isin(industry_select)]
 
-    st.plotly_chart(fig, use_container_width=True)
+    # st.plotly_chart(fig, use_container_width=True)
 
     df = st.data_editor(
         df,
-        column_config={
-            "Peer Group": st.column_config.CheckboxColumn(
-                "Include in Peer Group?",
-                default=False,
-            )
-        },
         disabled=["widgets"],
         hide_index=True,
     )
-
-    for company in list(df.loc[df["peer_group"] == True, "symbol"]):
-        peer_group_user.add_company(company)
 
 
 if __name__ == "__main__":

@@ -2,6 +2,7 @@ import datetime
 from click import DateTime
 import pandas as pd
 from class_gbq import historical_index_quotes, historical_peer_quotes, info_data
+from valuationhub.valuationhub.assets import download_index_ticker
 
 
 class Peer_Group:
@@ -13,6 +14,7 @@ class Peer_Group:
         self.peer_historical_data: pd.DataFrame = pd.DataFrame()
         self.index_historical_data: dict = {}
         self.beta_calc_dict: dict = {}
+        self.available_indices = download_index_ticker()
         self.index: dict = {}
 
         # parameter beta calc
@@ -61,8 +63,11 @@ class Peer_Group:
         beta_calc_dict = {}
 
         for peer in self.peer_companies:
+            stock = self.peer_historical_data.loc[
+                self.peer_historical_data["symbol"] == peer, :
+            ]
             stock = self.peer_historical_data[["symbol", "date", "close"]]
-            index = self.index_historical_data["AAPL"][["symbol", "date", "close"]]
+            index = self.index_historical_data[peer][["symbol", "date", "close"]]
 
             stock["date"] = pd.to_datetime(stock["date"])
             index["date"] = pd.to_datetime(index["date"])
@@ -97,9 +102,10 @@ class Peer_Group:
                 ]
             ]
 
-            beta_calc = beta_calc[
+            beta_calc = beta_calc.loc[
                 (beta_calc["weekday"] != "Saturday")
-                & (beta_calc["weekday"] != "Sunday")
+                & (beta_calc["weekday"] != "Sunday"),
+                :,
             ]
 
             first_day = beta_calc["weekday"][0]
@@ -110,7 +116,7 @@ class Peer_Group:
 
             beta_calc["beta"] = (
                 beta_calc["return_stock"]
-                .rolling(window=5)
+                .rolling(window=52)
                 .corr(beta_calc["return_index"])
             )
 
