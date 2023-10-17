@@ -7,10 +7,10 @@ from modules.graph import create_3d_scatterplot
 
 
 def peergroup_page():
+    st.header("Peer Group Filter", divider="blue")
+
     # Load Data
     df = peer_group_user.info_data
-    df = df[df["currency"].isin(["EUR"])]
-    sector_selection = list(df["sector"].unique())
     industry_selection = list(df["industry"].unique())
 
     # Marketcap Bins
@@ -18,44 +18,43 @@ def peergroup_page():
     labels = np.linspace(start=1, stop=num, num=num)
     df["marketCap_bins"] = pd.qcut(df["marketcap"], q=num, labels=labels)
 
+    industry_select = st.multiselect(
+        "Industry Selection - Multiple Industries can be Selected:",
+        industry_selection,
+        ["Auto Manufacturers", "Auto Parts"],
+    )
+
     feature_select = st.multiselect(
-        "Benchmark Features:",
+        "Features (Benchmark) Selection:",
         df.columns,
         ["revenuegrowth", "profitmargins", "returnonequity"],
     )
 
-    with st.expander("Filter for selected benchmark features:"):
+    with st.expander("Ranges for selected Features:"):
         for feature in feature_select:
             values = st.slider(
                 f"Select a range of values for {feature}", 0.0, 100.0, (25.0, 75.0)
             )
             st.write("Values:", values)
 
-    # sector_select = st.multiselect("Sector", sector_selection, ["Technology"])
-    industry_select = st.multiselect(
-        "industry", industry_selection, ["Software—Application"]
-    )
+    # ... (existing code)
 
-    with st.expander("Additional Filters:"):
-        values = st.slider("Select a range of values", 0.0, 100.0, (25.0, 75.0))
-        st.write("Values:", values)
+    filtered_df = df.copy()
+    for feature in feature_select:
+        values = st.session_state.get(feature + "_values", (0.0, 100.0))
+        filtered_df = filtered_df[
+            (filtered_df[feature] >= values[0]) & (filtered_df[feature] <= values[1])
+        ]
 
-    # st.multiselect("Algorithm", ["1", "2", "3"])
-
-    # peer_group_user.add_company()
-
-    # Filter Data for TSNE
-    X = df[feature_select].dropna(axis=1)
-    # X = RobustScaler().fit_transform(X)
-    # fig = create_3d_scatterplot(df=df, X=X)
-
-    # df = df[(df["sector"].isin(sector_select)) | (df["industry"].isin(industry_select))]
-    df = df[df["industry"].isin(industry_select)]
-
-    # st.plotly_chart(fig, use_container_width=True)
+    col_list = [
+        "symbol",
+        "website",
+        "industry",
+        "long_business_summary",
+    ] + feature_select
 
     df = st.data_editor(
-        df,
+        filtered_df[col_list],
         disabled=["widgets"],
         hide_index=True,
     )
