@@ -59,7 +59,7 @@ def sidebar(peer_group_user):
 
     st.sidebar.header("Peer Group Selection", divider="blue")
 
-    st.sidebar.data_editor(
+    peer_index_selection_df = st.sidebar.data_editor(
         data_df,
         column_config={
             "Ticker": st.column_config.SelectboxColumn(
