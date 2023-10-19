@@ -28,11 +28,11 @@ def sidebar(peer_group_user):
         (
             five_years_ago,
             today,
-        ),  # Display a range from 5 years ago to today
+        ),
         five_years_ago
         - datetime.timedelta(days=365 * 25),  # Set the default start date
         today,  # Set the default end date as today
-        format="YYYY.MM.DD",
+        format="DD.MM.YYYY",
     )
     data_df = pd.DataFrame(
         {
@@ -66,7 +66,7 @@ def sidebar(peer_group_user):
                 "Company",
                 help="Selected Companies for Peer Group.",
                 width="medium",
-                options=peer_group_user.info_data["symbol"],
+                options=peer_group_user.info_data["Symbol"],
                 required=True,
             ),
             "Index": st.column_config.SelectboxColumn(

@@ -4,9 +4,6 @@ import pandas as pd
 project_id = "flash-realm-401106"
 dataset_id = "valuationhub"
 
-tickers = ["AAPL"]
-index = "^GDAXI"
-
 
 def info_data():
     service_account_json = "flash-realm-401106-a0bf29a37df7.json"
@@ -83,8 +80,3 @@ def historical_index_quotes(index: list) -> pd.DataFrame:
     query_job = client.query(query, job_config=job_config)
     df = query_job.to_dataframe()
     return df
-
-
-if __name__ == "__main__":
-    df = historical_index_quotes(index=["^GDAXI"])
-    print(df)

@@ -23,7 +23,7 @@ PATH_MAIN_DIR = str(Path(__file__).parent.parent.parent)
 PATH_DATA_DIR = str(PATH_MAIN_DIR + "/data")
 
 
-def gbq_upload(data: pd.DataFrame, table_id: str):
+def gbq_upload(data: pd.DataFrame, table_id: str, replace: str):
     project_id = "flash-realm-401106"
     dataset_id = "valuationhub"
     table_id = table_id
@@ -39,8 +39,8 @@ def gbq_upload(data: pd.DataFrame, table_id: str):
         data,
         destination_table,
         project_id=project_id,
-        if_exists="append",  # Choose whether to replace or append to the table
-        credentials=credentials,  # Specify the schema for the table
+        if_exists=replace,
+        credentials=credentials,
     )
 
 
@@ -99,7 +99,7 @@ def upload_index_quotes(download_index_ticker):
     df = df.infer_objects()
     df["date"] = df["date"].astype(str)
 
-    gbq_upload(data=df, table_id="h_index_quotes")
+    gbq_upload(data=df, table_id="h_index_quotes", replace="append")
 
     return df
 
@@ -129,17 +129,15 @@ def upload_quotes(get_symbols):
     df["timestamp"] = pd.Timestamp.now()
     df.columns = [x.replace(" ", "_").lower() for x in df.columns]
     df = df.infer_objects()
-    gbq_upload(data=df, table_id="h_quotes")
+    gbq_upload(data=df, table_id="h_quotes", replace="append")
     return df
 
 
 @asset(deps=[get_symbols])
 def upload_info():
-    df = pd.read_csv(
-        "/home/chris/code/affinitypropagation/data/info_merged_reduced.csv"
-    )
+    df = pd.read_csv("/home/chris/code/affinitypropagation/data/info_merged.csv")
     df["timestamp"] = pd.Timestamp.now()
-    gbq_upload(data=df, table_id="h_info")
+    gbq_upload(data=df, table_id="h_info", replace="replace")
     return df
 
 
@@ -176,6 +174,6 @@ def upload_income_stmt(get_symbols):
     df.columns = [x.replace(" ", "_").lower() for x in df.columns]
     df = df.infer_objects()
 
-    gbq_upload(data=df, table_id="h_income_stmt")
+    gbq_upload(data=df, table_id="h_income_stmt", replace="append")
 
     return df

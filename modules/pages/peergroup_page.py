@@ -11,12 +11,12 @@ def peergroup_page():
 
     # Load Data
     df = peer_group_user.info_data
-    industry_selection = list(df["industry"].unique())
+    industry_selection = list(df["Industry"].unique())
 
     # Marketcap Bins
     num = 10
     labels = np.linspace(start=1, stop=num, num=num)
-    df["marketCap_bins"] = pd.qcut(df["marketcap"], q=num, labels=labels)
+    df["marketCap_bins"] = pd.qcut(df["Market Cap"], q=num, labels=labels)
 
     industry_select = st.multiselect(
         "Industry Selection - Multiple Industries can be Selected:",
@@ -24,38 +24,47 @@ def peergroup_page():
         ["Auto Manufacturers", "Auto Parts"],
     )
 
+    df = df.loc[df["Industry"].isin(industry_select), :]
+
     feature_select = st.multiselect(
         "Features (Benchmark) Selection:",
         df.columns,
-        ["revenuegrowth", "profitmargins", "returnonequity"],
+        ["Revenue Growth %", "Profit Margins %", "Return On Equity %"],
     )
+
+    filtered_df = df.copy()
 
     with st.expander("Ranges for selected Features:"):
         for feature in feature_select:
             values = st.slider(
-                f"Select a range of values for {feature}", 0.0, 100.0, (25.0, 75.0)
+                f"Select a range of values for {feature}",
+                min(filtered_df[feature]),
+                max(filtered_df[feature]),
+                (min(filtered_df[feature]), max(filtered_df[feature])),
             )
-            st.write("Values:", values)
-
-    # ... (existing code)
-
-    filtered_df = df.copy()
-    for feature in feature_select:
-        values = st.session_state.get(feature + "_values", (0.0, 100.0))
-        filtered_df = filtered_df[
-            (filtered_df[feature] >= values[0]) & (filtered_df[feature] <= values[1])
-        ]
+            filtered_df = filtered_df[
+                (filtered_df[feature] >= values[0])
+                & (filtered_df[feature] <= values[1])
+            ]
 
     col_list = [
-        "symbol",
-        "website",
-        "industry",
-        "long_business_summary",
+        "Symbol",
+        "Website",
+        "Industry",
+        "Long Business Summary",
     ] + feature_select
 
-    df = st.data_editor(
-        filtered_df[col_list],
-        disabled=["widgets"],
+    df = st.dataframe(
+        filtered_df[col_list].style.format(
+            {"Revenue Growth %": "{:.2%}", "Profit Margins %": "{:.2%}"}
+        ),
+        column_config={
+            "Website": st.column_config.LinkColumn(
+                "Website (Use Doubleclick)",
+                help="Website of the Company.",
+                max_chars=100,
+            )
+        },
         hide_index=True,
     )
 
