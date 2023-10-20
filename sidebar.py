@@ -34,7 +34,7 @@ def sidebar(peer_group_user):
         today,  # Set the default end date as today
         format="DD.MM.YYYY",
     )
-    data_df = pd.DataFrame(
+    company_index_df = pd.DataFrame(
         {
             "Ticker": [
                 "BMW.DE",
@@ -60,7 +60,7 @@ def sidebar(peer_group_user):
     st.sidebar.header("Peer Group Selection", divider="blue")
 
     peer_index_selection_df = st.sidebar.data_editor(
-        data_df,
+        company_index_df,
         column_config={
             "Ticker": st.column_config.SelectboxColumn(
                 "Company",

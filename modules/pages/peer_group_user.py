@@ -1,4 +1,6 @@
 from class_peer_group import Peer_Group
+import pandas as pd
+
 
 peer_group_user = Peer_Group()
 
@@ -66,5 +68,30 @@ column_mapping = {
     "targetMedianPrice": "Target Median Price",
 }
 
+company_index_df = pd.DataFrame(
+    {
+        "Ticker": [
+            "BMW.DE",
+            "PAH3.DE",
+            "RNO.PA",
+            "F",
+            "GM",
+            "HMC",
+            "TM",
+        ],
+        "Index": [
+            "^STOXX50E",
+            "^STOXX50E",
+            "^STOXX50E",
+            "^STOXX50E",
+            "^STOXX50E",
+            "^STOXX50E",
+            "^STOXX50E",
+        ],
+    }
+)
+
+peer_group_user.peer_companies = company_index_df["Ticker"].tolist()
+peer_group_user.index = dict(zip(company_index_df["Ticker"], company_index_df["Index"]))
 peer_group_user.info_data = peer_group_user.info_data[column_mapping.keys()]
 peer_group_user.info_data.rename(columns=column_mapping, inplace=True)

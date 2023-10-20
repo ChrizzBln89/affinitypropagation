@@ -66,7 +66,7 @@ class Peer_Group:
             stock = self.peer_historical_data.loc[
                 self.peer_historical_data["symbol"] == peer, :
             ]
-            stock = self.peer_historical_data[["symbol", "date", "close"]]
+            stock = stock[["symbol", "date", "close"]]
             index = self.index_historical_data[peer][["symbol", "date", "close"]]
 
             stock["date"] = pd.to_datetime(stock["date"])

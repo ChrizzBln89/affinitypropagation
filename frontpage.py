@@ -19,10 +19,10 @@ add_selectbox = st.sidebar.selectbox(
 sidebar(peer_group_user=peer_group_user)
 
 if add_selectbox == "Peer Group Selection":
-    peergroup_page()
+    peergroup_page(peer_group_user=peer_group_user)
 
 if add_selectbox == "Beta Calculation":
-    beta_page()
+    beta_page(peer_group_user=peer_group_user)
 
 if add_selectbox == "Company Database":
     db()
