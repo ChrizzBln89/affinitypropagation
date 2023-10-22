@@ -4,7 +4,6 @@ from class_gbq import (
     historical_peer_quotes,
     info_data,
 )
-from ...valuationhub.valuationhub.assets import download_index_ticker
 
 
 class Peer_Group:
@@ -16,7 +15,7 @@ class Peer_Group:
         self.peer_historical_data: pd.DataFrame = pd.DataFrame()
         self.index_historical_data: dict = {}
         self.beta_calc_dict: dict = {}
-        self.available_indices = download_index_ticker()
+        self.available_indices = []
         self.index: dict = {}
 
         # parameter beta calc
