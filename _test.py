@@ -1,8 +1,12 @@
 import numpy as np
 import pytest
 import pandas as pd
-from class_gbq import historical_peer_quotes, historical_index_quotes, info_data
-from class_peer_group import Peer_Group
+from modules.pages.class_gbq import (
+    historical_peer_quotes,
+    historical_index_quotes,
+    info_data,
+)
+from modules.pages.class_peer_group import Peer_Group
 from valuationhub.valuationhub.assets import *
 
 

@@ -1,5 +1,5 @@
 import random
-from class_peer_group import Peer_Group
+from modules.pages.class_peer_group import Peer_Group
 import pandas as pd
 from valuationhub.valuationhub.assets import get_symbols
 

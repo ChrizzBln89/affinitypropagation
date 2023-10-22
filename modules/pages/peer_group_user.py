@@ -1,4 +1,4 @@
-from class_peer_group import Peer_Group
+from modules.pages.class_peer_group import Peer_Group
 import pandas as pd
 
 
