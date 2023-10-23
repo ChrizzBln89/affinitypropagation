@@ -1,17 +1,17 @@
 import time
 import streamlit as st
 from datetime import datetime
+
+from tomlkit import date
 from peer_group_user import peer_group_user
 from peer_group_page import peergroup_page
 import plotly.graph_objs as go
 import pandas as pd
 
-from valuationhub.valuationhub.assets import download_index_ticker
-
 
 def beta_page(peer_group_user=peer_group_user) -> None:
     st.set_page_config(layout="wide")
-    st.header("Peer Group Beta Overview", divider="blue")
+    st.header("Peer Group Tool v0.01", divider="blue")
     tabs_peer_group = st.tabs(
         [
             "1. Peer Group Company Finder",
@@ -25,7 +25,7 @@ def beta_page(peer_group_user=peer_group_user) -> None:
         peergroup_page(peer_group_user=peer_group_user)
 
     with tabs_peer_group[1]:
-        with st.sidebar.status("Downloading data...", expanded=True) as status:
+        with st.status("Downloading data...", expanded=True) as status:
             st.write("Searching for data...")
             time.sleep(2)
             st.write("Query Database.")
@@ -34,20 +34,20 @@ def beta_page(peer_group_user=peer_group_user) -> None:
             time.sleep(1)
             status.update(label="Data is Loaded ✅", state="complete", expanded=False)
 
-        st.sidebar.header("Peer Group Settings", divider="blue")
+        st.header("Peer Group Settings", divider="blue")
 
-        today = datetime.date.today()
-        five_years_ago = today - datetime.timedelta(days=365 * 5)
+        todays_date = datetime.today().date()
+        five_years_ago = todays_date - datetime.datetime.timedelta(days=365 * 5)
 
-        observation_timeframe = st.sidebar.date_input(
+        observation_timeframe = st.date_input(
             "Observation Timeframe",
             (
                 five_years_ago,
-                today,
+                todays_date,
             ),
             five_years_ago
             - datetime.timedelta(days=365 * 25),  # Set the default start date
-            today,  # Set the default end date as today
+            todays_date,  # Set the default end date as todays_date
             format="DD.MM.YYYY",
         )
         company_index_df = pd.DataFrame(
@@ -73,9 +73,9 @@ def beta_page(peer_group_user=peer_group_user) -> None:
             }
         )
 
-        st.sidebar.header("Peer Group Selection", divider="blue")
+        st.header("Peer Group Selection", divider="blue")
 
-        peer_index_selection_df = st.sidebar.data_editor(
+        peer_index_selection_df = st.data_editor(
             company_index_df,
             column_config={
                 "Ticker": st.column_config.SelectboxColumn(
@@ -89,7 +89,7 @@ def beta_page(peer_group_user=peer_group_user) -> None:
                     "Index",
                     help="Selected Index for Peer Group.",
                     width="medium",
-                    options=download_index_ticker(),
+                    options=["^STOXX50E", "^GDAXI", "^GSPC"],
                     required=True,
                 ),
             },
