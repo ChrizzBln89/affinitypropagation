@@ -6,7 +6,9 @@ dataset_id = "valuationhub"
 
 
 def info_data():
-    service_account_json = "flash-realm-401106-a0bf29a37df7.json"
+    service_account_json = (
+        "/home/chris/code/affinitypropagation/flash-realm-401106-a0bf29a37df7.json"
+    )
     client = bigquery.Client.from_service_account_json(service_account_json)
 
     query = """

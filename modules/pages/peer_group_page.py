@@ -2,12 +2,11 @@ import pandas as pd
 import numpy as np
 import streamlit as st
 from sklearn.preprocessing import RobustScaler
-from modules.pages.peer_group_user import peer_group_user
-from modules.graph import create_3d_scatterplot
+from peer_group_user import peer_group_user
 
 
 def peergroup_page(peer_group_user=peer_group_user):
-    st.header("Peer Group Filter", divider="blue")
+    st.header("1. Peer Group Company Finder", divider="blue")
 
     # Load Data
     df = peer_group_user.info_data
