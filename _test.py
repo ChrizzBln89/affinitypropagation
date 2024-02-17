@@ -8,6 +8,9 @@ from modules.pages.class_gbq import (
 )
 from modules.pages.class_peer_group import Peer_Group
 from valuationhub.valuationhub.assets import *
+import sys
+
+sys.path.append("/path/to/directory")
 
 
 @pytest.fixture
